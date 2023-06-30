@@ -1,0 +1,10 @@
+.menu {
+  width: 80px;
+  height: 100%;
+  background: #f74f50;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+}
+.menu img {
+  width: 100%;
+  padding: 20px;
+}
