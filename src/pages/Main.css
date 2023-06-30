@@ -1,0 +1,30 @@
+html,
+body {
+  height: 100%;
+}
+.main {
+  display: flex;
+}
+.screen {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  gap: 8px;
+}
+.screen .top {
+  width: 100%;
+  height: 20%;
+  display: flex;
+  align-self: stretch;
+  flex-grow: 1;
+  padding: 10px 0px;
+}
+.screen .down {
+  height: 80%;
+  width: 100%;
+  display: flex;
+  padding: 10px 0px;
+}
