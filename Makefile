@@ -1,4 +1,4 @@
 build:
 	docker build -t harmonica-image .
 run:
-	docker run -d -p 3333:3000 --name harmonica-web harmonica-image
+	docker run -v $(pwd)/src:/app/src -d -p 8080:3000 --name harmonica-web harmonica-image
