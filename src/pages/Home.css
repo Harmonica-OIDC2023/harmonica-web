@@ -1,0 +1,40 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+.home {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1vh 1vw;
+}
+.home .top {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 4vh 0px 1vh 0px;
+}
+.home .top h1 {
+  font-size: 6vw;
+}
+.home .top h3 {
+  font-size: 2vw;
+  color: #9d9d9d;
+}
+.home .mid {
+  flex: 0.2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0vh 0vw 8vh;
+}
+.home .down {
+  flex: 1;
+  display: flex;
+  width: 100%;
+  padding: 1vh 0px 4vh 0px;
+}
