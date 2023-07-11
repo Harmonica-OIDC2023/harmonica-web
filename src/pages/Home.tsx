@@ -34,15 +34,43 @@ const Home = () => {
 					className={isButtonClicked ? 'next-button-active' : 'next-button'}
 					style={{width: '25vw', height: '6vh'}}
 				>
-					Next
+					<div
+						style={{
+							width: '100%',
+							color: '9d9d9d',
+							fontStyle: 'bold',
+							fontSize: '30px',
+							textAlign: 'center',
+						}}
+					>
+						Next
+					</div>
                 </NextButton>
 			</Container>
 			<Container className="down">
-				<ItemBlock onClick={clickHandler}>온프렘</ItemBlock>
+				<ItemBlock onClick={clickHandler}>
+					<div
+						style={{
+							width: '100%',
+							color: '#4b4b4b',
+							fontStyle: 'bold',
+							fontSize: '40px',
+							textAlign: 'center',
+						}}
+					>
+						On-Premise
+					</div>
+				</ItemBlock>
                 <Vr />
-				<ItemBlock onClick={clickHandler}>OCI</ItemBlock>
-				<ItemBlock style={{pointerEvents:'none', background:'#fafafa'}}>AWS</ItemBlock>
-				<ItemBlock style={{pointerEvents:'none', background:'#fafafa'}}>GCP</ItemBlock>
+				<ItemBlock onClick={clickHandler}>
+					<img src="assets/Oracle_Cloud_Platform-Logo.wine.png" alt='home icon' style={{width: '100%'}}/>
+				</ItemBlock>
+				<ItemBlock style={{pointerEvents:'none', background:'#fafafa'}}>
+					<img src="assets/Amazon_Web_Services-Logo.wine.png" alt='home icon' style={{width: '60%'}}/>
+				</ItemBlock>
+				<ItemBlock style={{pointerEvents:'none', background:'#fafafa'}}>
+					<img src="assets/Google_Cloud_Platform-Logo.wine.png" alt='home icon' style={{width: '100%'}}/>
+				</ItemBlock>
 			</Container>
 		</Container>
 	);
