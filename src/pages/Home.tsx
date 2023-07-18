@@ -54,7 +54,7 @@ const Home = () => {
 							width: '100%',
 							color: '#4b4b4b',
 							fontStyle: 'bold',
-							fontSize: '40px',
+							fontSize: '2.1vw',
 							textAlign: 'center',
 						}}
 					>
