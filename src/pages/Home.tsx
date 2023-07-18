@@ -32,19 +32,9 @@ const Home = () => {
 				<NextButton
 					onClick={nextHandler}
 					className={isButtonClicked ? 'next-button-active' : 'next-button'}
-					style={{width: '25vw', height: '6vh'}}
+					style={{width: '25vw', height: '6vh', fontSize: '30px'}}
 				>
-					<div
-						style={{
-							width: '100%',
-							color: '9d9d9d',
-							fontStyle: 'bold',
-							fontSize: '30px',
-							textAlign: 'center',
-						}}
-					>
-						Next
-					</div>
+					Next
                 </NextButton>
 			</Container>
 			<Container className="down">
