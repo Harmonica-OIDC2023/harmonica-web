@@ -7,28 +7,18 @@ import './Main.css';
 import NextButton from '../components/NextButton';
 
 interface FormData {
-	compartment_id: string;
-	subnet_id: string;
-	user: string;
-	fingerprint: string;
-	tenancy: string;
-	region: string;
-	key_file: File | null; // Specify the type as File | null
-	api_url: string;
-	registry: string;
-  }
+	fnapp_name: string;
+	fnfnc_name: string;
+	apigw_name: string;
+	apideploy_name: string;
+}
 
-const Auth = () => {
+const Auth2 = () => {
 	const [formData, setFormData] = useState<FormData>({
-		compartment_id: '',
-		subnet_id: '',
-		user: '',
-		fingerprint: '',
-		tenancy: '',
-		region: '',
-		key_file: null,
-		api_url: '',
-		registry: '',
+		fnapp_name: '',
+        fnfnc_name: '',
+        apigw_name: '',
+        apideploy_name: ''
 	});
 
 	const navigate = useNavigate();
@@ -37,7 +27,7 @@ const Auth = () => {
 	const nextHandler = () => {
 		// next 버튼 누르면 auth 페이지로 라우팅
 		if(isFormComplete) {
-			navigate('/auth2');
+			navigate('/migration');
 		}
 	};
 
@@ -62,74 +52,34 @@ const Auth = () => {
 			<ItemBlock style={{ display: 'flex', flexDirection: 'column' }}>
 				<div className="form-container" style={{ display: 'flex', flexDirection: 'column', width: '100%', marginBlockEnd: '5vh'}}>
 					<AuthForm
-						label="COMPARTMENT_ID"
-						name="compartment_id"
-						value={formData.compartment_id}
+						label="FNAPP_NAME"
+						name="fnapp_name"
+						value={formData.fnapp_name}
 						type="text"
 						onInputChange={handleInputChange}
 						infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
 					/>
 					<AuthForm
-						label="SUBNET_ID"
-						name="subnet_id"
-						value={formData.subnet_id}
+						label="FNFNC_NAME"
+						name="fnfnc_name"
+						value={formData.fnfnc_name}
 						type="text"
 						onInputChange={handleInputChange}
 						infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
 					/>
 					<AuthForm
-						label="USER"
-						name="user"
-						value={formData.user}
+						label="APIGW_NAME"
+						name="apigw_name"
+						value={formData.apigw_name}
 						type="text"
 						onInputChange={handleInputChange}
 						infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
 					/>
 					<AuthForm
-						label="FINGERPRINT"
-						name="fingerprint"
-						value={formData.fingerprint}
+						label="APIDEPLOY_NAME"
+						name="apideploy_name"
+						value={formData.apideploy_name}
 						type="text"
-						onInputChange={handleInputChange}
-						infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
-					/>
-					<AuthForm
-						label="TENANCY"
-						name="tenancy"
-						value={formData.tenancy}
-						type="text"
-						onInputChange={handleInputChange}
-						infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
-					/>
-					<AuthForm
-						label="REGION"
-						name="region"
-						value={formData.region}
-						type="text"
-						onInputChange={handleInputChange}
-						infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
-					/>
-					<AuthForm
-						label="API_URL"
-						name="api_url"
-						value={formData.api_url}
-						type="text"
-						onInputChange={handleInputChange}
-						infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
-					/>
-					<AuthForm
-						label="REGISTRY"
-						name="registry"
-						value={formData.registry}
-						type="text"
-						onInputChange={handleInputChange}
-						infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
-					/>
-					<AuthForm
-						label="KEY_FILE"
-						name="key_file"
-						value={formData.key_file ? formData.key_file.name : ''}
-						type="file"
 						onInputChange={handleInputChange}
 						infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
 					/>
@@ -147,6 +97,4 @@ const Auth = () => {
 	);
 };
 
-export default Auth;
-
-
+export default Auth2;
