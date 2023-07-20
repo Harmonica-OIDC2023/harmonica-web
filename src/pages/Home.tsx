@@ -32,19 +32,9 @@ const Home = () => {
 				<NextButton
 					onClick={nextHandler}
 					className={isButtonClicked ? 'next-button-active' : 'next-button'}
-					style={{width: '25vw', height: '6vh'}}
+					style={{width: '25vw', height: '6vh', fontSize: '30px'}}
 				>
-					<div
-						style={{
-							width: '100%',
-							color: '9d9d9d',
-							fontStyle: 'bold',
-							fontSize: '30px',
-							textAlign: 'center',
-						}}
-					>
-						Next
-					</div>
+					Next
                 </NextButton>
 			</Container>
 			<Container className="down">
@@ -54,7 +44,7 @@ const Home = () => {
 							width: '100%',
 							color: '#4b4b4b',
 							fontStyle: 'bold',
-							fontSize: '40px',
+							fontSize: '2.1vw',
 							textAlign: 'center',
 						}}
 					>
@@ -77,12 +67,3 @@ const Home = () => {
 };
 
 export default Home;
-
-/*
-TODO
-- 컴포넌트 배치
-- 클라우드 버튼 누르면 -> next 버튼 활성화
-- next 버튼 누르면 auth 페이지로 라우팅
-- css 작업
-- 시간 되면 hover 추가
-*/
