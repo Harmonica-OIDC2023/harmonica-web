@@ -7,27 +7,23 @@ import './Main.css';
 import NextButton from '../components/NextButton';
 
 interface FormData {
-	fnapp_name: string;
-	fnfnc_name: string;
-	apigw_name: string;
-	apideploy_name: string;
-}
+	fn_init: string;
+	func_file: File | null; // Specify the type as File | null
+  }
 
-const Auth2 = () => {
+const Migration = () => {
 	const [formData, setFormData] = useState<FormData>({
-		fnapp_name: '',
-        fnfnc_name: '',
-        apigw_name: '',
-        apideploy_name: ''
+		fn_init: '',
+		func_file: null
 	});
 
 	const navigate = useNavigate();
 	const [isFormComplete, setIsFormComplete] = useState(false);
 
-	const nextHandler = () => {
+	const migrationHandler = () => {
 		// next 버튼 누르면 auth 페이지로 라우팅
 		if(isFormComplete) {
-			navigate('/migration');
+			navigate('/completed');
 		}
 	};
 
@@ -52,34 +48,18 @@ const Auth2 = () => {
 			<ItemBlock style={{ display: 'flex', flexDirection: 'column' }}>
 				<div className="form-container" style={{ display: 'flex', flexDirection: 'column', width: '100%', marginBlockEnd: '5vh'}}>
 					<AuthForm
-						label="FNAPP_NAME"
-						name="fnapp_name"
-						value={formData.fnapp_name}
+						label="FN INIT"
+						name="fn_init"
+						value={formData.fn_init}
 						type="text"
 						onInputChange={handleInputChange}
 						infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
 					/>
 					<AuthForm
-						label="FNFNC_NAME"
-						name="fnfnc_name"
-						value={formData.fnfnc_name}
-						type="text"
-						onInputChange={handleInputChange}
-						infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
-					/>
-					<AuthForm
-						label="APIGW_NAME"
-						name="apigw_name"
-						value={formData.apigw_name}
-						type="text"
-						onInputChange={handleInputChange}
-						infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
-					/>
-					<AuthForm
-						label="APIDEPLOY_NAME"
-						name="apideploy_name"
-						value={formData.apideploy_name}
-						type="text"
+						label="FUNC_FILE"
+						name="func_file"
+						value={formData.func_file ? formData.func_file.name : ''}
+						type="file"
 						onInputChange={handleInputChange}
 						infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
 					/>
@@ -87,14 +67,14 @@ const Auth2 = () => {
 				<NextButton
 					disabled={!isFormComplete}
 					className={isFormComplete ? 'next-button-active' : 'next-button'}
-					onClick={nextHandler}
+					onClick={migrationHandler}
 					style={{width: '25vw', height: '6vh', fontSize: '30px'}}
 				>
-					Next
+					MIGRATION
 				</NextButton>
 			</ItemBlock>
 		</div>
 	);
 };
 
-export default Auth2;
+export default Migration;

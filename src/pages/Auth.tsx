@@ -55,7 +55,7 @@ const Auth = () => {
 	}, [formData]);
 
 	return (
-		<Container className="screen">
+		<div className="screen">
 			<ItemBlock style={{ width: '30%' }}>
 				auth process bar
 			</ItemBlock>
@@ -143,7 +143,7 @@ const Auth = () => {
 					Next
 				</NextButton>
 			</ItemBlock>
-		</Container>
+		</div>
 	);
 };
 
