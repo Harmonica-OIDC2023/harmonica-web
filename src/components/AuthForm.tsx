@@ -54,7 +54,7 @@ const AuthForm: React.FC<Props> = ({ label, name, value, type, onInputChange, in
   const renderInput = () => {
     if (type === 'file') {
       return (
-        <div {...getRootProps()} style={{ width: '25vw', height: '80%', paddingLeft: '1vw', paddingRight: '1vw', border: '1.2px dashed #dddddd', color: '#9d9d9d', borderRadius: '5px', alignItems: 'center', display: 'flex', fontSize: '0.8rem' }}>
+        <div {...getRootProps()} style={{ flex: '2', height: '80%', paddingLeft: '1vw', paddingRight: '1vw', border: '1.2px dashed #dddddd', color: '#9d9d9d', borderRadius: '5px', alignItems: 'center', display: 'flex', fontSize: '0.8rem' }}>
           <input {...getInputProps()} />
           {inputValue instanceof File ? (
             <div style={{justifyContent: 'center', display: 'flex', width: '100%'}}>Selected file: {inputValue.name}</div>
@@ -71,14 +71,14 @@ const AuthForm: React.FC<Props> = ({ label, name, value, type, onInputChange, in
         type="text"
         value={typeof inputValue === 'string' ? inputValue : ''}
         onChange={handleInputChange}
-        style={{ width: '25vw', height: '80%', paddingLeft: '1vw', paddingRight: '1vw', border:'1px solid #dddddd', borderRadius: '0.5rem'}}
+        style={{ flex: '2', height: '80%', paddingLeft: '1vw', paddingRight: '1vw', border:'1px solid #dddddd', borderRadius: '0.5rem'}}
       />
     );
   };  
 
   return (
-    <div style={{ display: 'flex', height: '7vh', alignItems: 'center', width: '100%', padding: '1vh 4vw', color: '#4b4b4b' }}>
-      <label style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', width: '20vw' }}>
+    <div style={{ display: 'flex', height: '7vh', alignItems: 'center', justifyContent: 'center', width: '100%', padding: '1vh 4vw', color: '#4b4b4b' }}>
+      <label style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', flex: '1' }}>
         <span style={{ marginRight: '0.5rem', fontSize: '1rem' }}>{label}</span>
         <div style={{ marginRight: 'auto', height: '100%', alignItems: 'center', marginBlockEnd: '0.15rem'}}>
           <FiHelpCircle onClick={handleInfoClick} color="#9d9d9d" style={{ cursor: 'pointer' }} />
