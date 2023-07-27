@@ -7,12 +7,13 @@ type MyComponentProps = {
   onClick?: React.MouseEventHandler<HTMLElement>;
   style?: CSSProperties;
   disabled?: boolean;
+  completed?: boolean; // New prop to indicate completion status
 };
 
-function NextButton({ children, className, style, onClick, disabled }: MyComponentProps) {
+function NextButton({ children, className, style, onClick, disabled, completed }: MyComponentProps) {
   return (
     <div
-      className={`${className}${disabled ? ' disabled' : ''}`}
+      className={`${className}${disabled ? ' disabled' : ''}${completed ? ' completed' : ''}`}
       onClick={disabled ? undefined : onClick}
       style={style}
     >

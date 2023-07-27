@@ -23,7 +23,7 @@ const Home = () => {
     };
 
 	return (
-		<Container className="home" >
+		<div className="home" >
             <Container className="top">
                 <h1>Harmonica</h1>
 				<h3>Serverless Switch Platform for Hybrid Cloud</h3>
@@ -62,7 +62,7 @@ const Home = () => {
 					<img src="assets/Google_Cloud_Platform-Logo.wine.png" alt='home icon' style={{width: '100%'}}/>
 				</ItemBlock>
 			</Container>
-		</Container>
+		</div>
 	);
 };
 
