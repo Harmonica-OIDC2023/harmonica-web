@@ -85,7 +85,7 @@ const AuthForm: React.FC<Props> = ({ label, name, value, type, onInputChange, in
           {inputValue !== '' && <FiCheckCircle color="green" style={{ marginLeft: '0.5rem'}} />}
         </div>
       </label>
-      <Vr style={{height: '50%', background: '#fafafa', border:'1px solid #fafafa', margin: '0 1rem 0 1rem'}}/>
+      <Vr style={{height: '50%', margin: '0 1rem 0 1rem'}}/>
       {renderInput()}
       <br />
     </div>
