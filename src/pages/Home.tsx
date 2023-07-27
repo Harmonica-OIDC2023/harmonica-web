@@ -67,12 +67,3 @@ const Home = () => {
 };
 
 export default Home;
-
-/*
-TODO
-- 컴포넌트 배치
-- 클라우드 버튼 누르면 -> next 버튼 활성화
-- next 버튼 누르면 auth 페이지로 라우팅
-- css 작업
-- 시간 되면 hover 추가
-*/
