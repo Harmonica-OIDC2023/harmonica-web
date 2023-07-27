@@ -2,6 +2,8 @@ function Footer() {
   return (
     <p
         style={{
+            position: 'fixed',
+            bottom: 0,
             padding: '1vh 1vw',
             color: '#dddddd',
         }}
