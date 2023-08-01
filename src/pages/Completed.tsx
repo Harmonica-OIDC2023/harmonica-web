@@ -63,7 +63,7 @@ const Completed = () => {
                             fontSize: '1.8vw',
                         }}
                     >
-                        Complted!🚀
+                        Completed!🚀
                     </div>
                     <div style={{
                         marginTop: '1.5vh',
