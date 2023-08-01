@@ -23,4 +23,3 @@ function NextButton({ children, className, style, onClick, disabled, completed }
 }
 
 export default NextButton;
-
