@@ -1,6 +1,6 @@
 import React from 'react';
 import Lottie from 'lottie-react';
-import animationData from './lottie/animation_lkkrf2sp.json'; 
+import animationData from './lottie/animation_music.json'; 
 
 const InProgressSpinner = () => {
 
