@@ -55,10 +55,10 @@ const Home = () => {
 				<ItemBlock onClick={clickHandler}>
 					<img src="assets/Oracle_Cloud_Platform-Logo.wine.png" alt='home icon' style={{width: '100%'}}/>
 				</ItemBlock>
-				<ItemBlock style={{pointerEvents:'none', background:'#fafafa'}}>
+				<ItemBlock style={{pointerEvents:'none', background:'#fafafa', boxShadow:'0px 0px 4px rgba(0, 0, 0, 0.25)'}}>
 					<img src="assets/Amazon_Web_Services-Logo.wine.png" alt='home icon' style={{width: '60%'}}/>
 				</ItemBlock>
-				<ItemBlock style={{pointerEvents:'none', background:'#fafafa'}}>
+				<ItemBlock style={{pointerEvents:'none', background:'#fafafa', boxShadow:'0px 0px 4px rgba(0, 0, 0, 0.25)'}}>
 					<img src="assets/Google_Cloud_Platform-Logo.wine.png" alt='home icon' style={{width: '100%'}}/>
 				</ItemBlock>
 			</Container>
