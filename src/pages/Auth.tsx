@@ -6,6 +6,7 @@ import './Main.css';
 import NextButton from '../components/NextButton';
 import { useDropzone } from 'react-dropzone';
 import Hr from '../components/Hr';
+import { FiCheckCircle } from 'react-icons/fi';
 
 interface FormData {
 	compartment_id: string;
@@ -86,43 +87,66 @@ const Auth = () => {
 		setIsFormComplete(isComplete);
 	}, [formData]);
 
+	const items = [
+		"COMPARTMENT_ID",
+		"SUBNET_ID",
+		"USER",
+		"FINGERPRINT",
+		"TENANCY",
+		"REGION",
+		"API_URL",
+		"REGISTRY",
+		"KEY_FILE",
+		"FNAPP_NAME",
+		"FNFNC_NAME",
+		"APIGW_NAME",
+		"APIDEPLOY_NAME"
+	];
+
+	const idxStyle = {
+		display: 'flex',
+		width: '100%',
+		height: '5vh',
+		TextAlign: 'left',
+		paddingInline: '1.5rem',
+		alignItems: 'center',
+	}
+
 	return (
 		<div className="screen">
-			<ItemBlock style={{ width: '30%', display: 'flex', flexDirection: 'column', }}>
-				<div
-					style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%'}}
-				>
-					** TODO: 폼 입력 완료 시, 표시 추가 **
-					<p>COMPARTMENT_ID</p>
-					<p>SUBNET_ID</p>
-					<p>USER</p>
-					<p>FINGERPRINT</p>
-					<p>TENANCY</p>
-					<p>REGION</p>
-					<p>API_URL</p>
-					<p>REGISTRY</p>
-					<p>KEY_FILE</p>
-					<p>FNAPP_NAME</p>
-					<p>FNFNC_NAME</p>
-					<p>APIGW_NAME</p>
-					<p>APIDEPLOY_NAME</p>
+			<ItemBlock style={{ flex: 1, display: 'flex', flexDirection: 'column'}}>
+				<div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', paddingBlock: '5vh 3vh'}}>
+					{items.map((item, index) => {
+						const value = formData[item.toLowerCase() as keyof FormData];
+						const isFile = value instanceof File;
+						const isNonEmptyString = typeof value === 'string' && value !== '';
+						return (
+							<div key={index} style={idxStyle}>
+								<FiCheckCircle 
+									color={(isFile || isNonEmptyString) ? "green" : "gray"} 
+									style={{ marginInline: '0.5rem'}}
+								/>
+								{item}
+							</div>
+						);
+					})}
 				</div>
 				<div
 					style={{
-						display: 'flex', flexDirection: 'column', width: '100%', height: '100%', alignItems: 'center'
+						display: 'flex', flexDirection: 'column', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center'
 					}}
 				>
 					<NextButton
 						disabled={!isFormComplete}
 						className={isFormComplete ? 'next-button-active' : 'next-button'}
 						onClick={nextHandler}
-						style={{width: '80%', height: '6vh', fontSize: '30px'}}
+						style={{width: '100%', height: '100%', fontSize: '30px', borderRadius: '0 0 12px 12px' }}
 					>
 						Next
 					</NextButton>
 				</div>
 			</ItemBlock>
-			<ItemBlock style={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'auto'}}>
+			<ItemBlock style={{ display: 'flex', flex: 4, flexDirection: 'column', height: '100%', overflow: 'auto'}}>
 				<div className="form-container" style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', paddingBlock: '6vh'}}>
 					<div
 						style={{
@@ -159,7 +183,7 @@ const Auth = () => {
 							}}
 						>
 							<input {...getInputProps()} />
-    						<div>Drag 'n' drop some files here, or click to select files</div>
+    						<div>Drag 'n' drop JSON file here, or click to select file</div>
 						</div>
 					</div>
 					<Hr />
