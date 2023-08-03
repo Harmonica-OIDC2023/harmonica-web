@@ -123,7 +123,7 @@ const Auth = () => {
 						return (
 							<div key={index} style={idxStyle}>
 								<FiCheckCircle 
-									color={(isFile || isNonEmptyString) ? "green" : "gray"} 
+									color={(isFile || isNonEmptyString) ? "green" : "#dddddd"} 
 									style={{ marginInline: '0.5rem'}}
 								/>
 								{item}
