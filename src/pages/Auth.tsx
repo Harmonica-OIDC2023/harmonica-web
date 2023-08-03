@@ -137,7 +137,7 @@ const Auth = () => {
 								textAlign: 'left',
 							}}
 						>
-							Upload Config
+							Upload Config...📄
 						</div>
 						<div
 							{...getRootProps()}
@@ -165,7 +165,7 @@ const Auth = () => {
 					<Hr />
 					<div
 						style={{
-							display: 'flex', flexDirection: 'column', width: '100%', height: '100%', marginBlockStart: '3vh', paddingBlockEnd: '6vh'
+							display: 'flex', flexDirection: 'column', width: '100%', marginBlockStart: '1vh', paddingBlockEnd: '6vh'
 						}}
 					>
 						<AuthForm

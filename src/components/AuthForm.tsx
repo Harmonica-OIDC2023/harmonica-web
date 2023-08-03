@@ -1,8 +1,5 @@
-// AuthForm.tsx
-
 import React, { ChangeEvent, useState } from 'react';
 import { FiCheckCircle, FiHelpCircle } from 'react-icons/fi';
-import Vr from './Vr';
 import { useDropzone } from 'react-dropzone';
 
 interface Props {
@@ -54,7 +51,7 @@ const AuthForm: React.FC<Props> = ({ label, name, value, type, onInputChange, in
   const renderInput = () => {
     if (type === 'file') {
       return (
-        <div {...getRootProps()} style={{ flex: '2', height: '80%', paddingLeft: '1vw', paddingRight: '1vw', border: '1.2px dashed #dddddd', color: '#9d9d9d', borderRadius: '5px', alignItems: 'center', display: 'flex', fontSize: '0.8rem' }}>
+        <div {...getRootProps()} style={{ flex: '2', height: '80%', paddingLeft: '1vw', paddingRight: '1vw', border: '1.2px dashed #dddddd', color: '#9d9d9d', borderRadius: '5px', alignItems: 'center', display: 'flex', fontSize: '0.8rem', width: '100%' }}>
           <input {...getInputProps()} />
           {inputValue instanceof File ? (
             <div style={{justifyContent: 'center', display: 'flex', width: '100%'}}>Selected file: {inputValue.name}</div>
@@ -71,21 +68,21 @@ const AuthForm: React.FC<Props> = ({ label, name, value, type, onInputChange, in
         type="text"
         value={typeof inputValue === 'string' ? inputValue : ''}
         onChange={handleInputChange}
-        style={{ flex: '2', height: '80%', paddingLeft: '1vw', paddingRight: '1vw', border:'1px solid #dddddd', borderRadius: '0.5rem'}}
+        style={{ flex: '2', height: '80%', paddingLeft: '1vw', paddingRight: '1vw', border:'1px solid #dddddd', borderRadius: '0.5rem', width: '100%'}}
       />
     );
   };  
 
   return (
-    <div style={{ display: 'flex', height: '7vh', alignItems: 'center', justifyContent: 'center', width: '100%', padding: '1vh 4vw', color: '#4b4b4b' }}>
-      <label style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', flex: '1' }}>
-        <span style={{ marginRight: '0.5rem', fontSize: '1rem' }}>{label}</span>
-        <div style={{ marginRight: 'auto', height: '100%', alignItems: 'center', marginBlockEnd: '0.15rem'}}>
+    <div style={{ display: 'flex', height: '15vh', width: '100%', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '1vh 4vw', color: '#4b4b4b' }}>
+      <label style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', flex: '1', width: '100%', marginLeft: '1vw', }}>
+        <span style={{ marginRight: '0.5rem', paddingBlock: '1vh', fontSize: '1rem' }}>{label}</span>
+        <div style={{ display: 'flex', marginRight: 'auto', height: '100%', alignItems: 'center'}}>
           <FiHelpCircle onClick={handleInfoClick} color="#9d9d9d" style={{ cursor: 'pointer' }} />
           {inputValue !== '' && <FiCheckCircle color="green" style={{ marginLeft: '0.5rem'}} />}
         </div>
       </label>
-      <Vr style={{height: '50%', margin: '0 1rem 0 1rem'}}/>
+      {/* <Vr style={{height: '50%', margin: '0 1rem 0 1rem'}}/> */}
       {renderInput()}
       <br />
     </div>
