@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Container from 'react-bootstrap/Container';
 import ItemBlock from '../components/ItemBlock';
 import AuthForm from '../components/AuthForm';
 import './Main.css';
