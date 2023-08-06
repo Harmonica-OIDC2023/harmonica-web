@@ -7,40 +7,35 @@ import NextButton from '../components/NextButton';
 import { useDropzone } from 'react-dropzone';
 import Hr from '../components/Hr';
 import { FiCheckCircle } from 'react-icons/fi';
+import * as yaml from 'js-yaml';
 
 interface FormData {
-	compartment_id: string;
-	subnet_id: string;
 	user: string;
 	fingerprint: string;
 	tenancy: string;
 	region: string;
 	key_file: File | null; // Specify the type as File | null
 	api_url: string;
+	compartment_id: string;
+	profile: string;
+	provider: string;
 	registry: string;
-	fnapp_name: string;
-	fnfnc_name: string;
-	apigw_name: string;
-	apideploy_name: string;
   }
 
 const Auth = () => {
 	const [formData, setFormData] = useState<FormData>({
-		compartment_id: '',
-		subnet_id: '',
 		user: '',
 		fingerprint: '',
 		tenancy: '',
 		region: '',
 		key_file: null,
 		api_url: '',
+		compartment_id: '',
+		profile: '',
+		provider: '',
 		registry: '',
-		fnapp_name: '',
-        fnfnc_name: '',
-        apigw_name: '',
-        apideploy_name: ''
 	});
-
+	
 	const onDrop = useCallback((acceptedFiles: File[]) => {
 		const file = acceptedFiles[0]; // get the first file from the array
 		const reader = new FileReader();
@@ -50,10 +45,18 @@ const Auth = () => {
 		reader.onload = () => {
 			if (typeof reader.result === 'string') {
 				try {
-					const configData = JSON.parse(reader.result);
+					let configData;
+					if (file.name.endsWith('.yaml') || file.name.endsWith('.yml')) {
+						configData = yaml.safeLoad(reader.result); // Convert YAML to JSON
+					} else if (file.name.endsWith('.json')) {
+						configData = JSON.parse(reader.result); // Parse JSON
+					} else {
+						console.error('Invalid file type');
+						return;
+					}
 					setFormData(configData);
 				} catch (error) {
-					console.error('Invalid JSON:', error);
+					console.error('Failed to parse file:', error);
 				}
 			} else {
 				console.error('File content is not a string');
@@ -61,6 +64,7 @@ const Auth = () => {
 		};
 		reader.readAsText(file);
 	}, []);
+	
 	
 	const {getRootProps, getInputProps} = useDropzone({onDrop});
 
@@ -88,19 +92,16 @@ const Auth = () => {
 	}, [formData]);
 
 	const items = [
-		"COMPARTMENT_ID",
-		"SUBNET_ID",
 		"USER",
 		"FINGERPRINT",
 		"TENANCY",
 		"REGION",
-		"API_URL",
-		"REGISTRY",
 		"KEY_FILE",
-		"FNAPP_NAME",
-		"FNFNC_NAME",
-		"APIGW_NAME",
-		"APIDEPLOY_NAME"
+		"API_URL",
+		"ORACLE.COMPARTMENT_ID",
+		"ORACLE.PROFILE",
+		"PROVIDER",
+		"REGISTRY",
 	];
 
 	const idxStyle = {
@@ -161,7 +162,7 @@ const Auth = () => {
 								textAlign: 'left',
 							}}
 						>
-							Upload Config...📄
+							CLI Config...📄
 						</div>
 						<div
 							{...getRootProps()}
@@ -183,7 +184,46 @@ const Auth = () => {
 							}}
 						>
 							<input {...getInputProps()} />
-    						<div>Drag 'n' drop JSON file here, or click to select file</div>
+    						<div>Drag 'n' drop Config file here, or click to select file</div>
+						</div>
+					</div>
+					{/* <Hr /> */}
+					<div
+						style={{
+							display: 'flex', flexDirection: 'column', width: '100%', height: '100%', alignItems: 'center'
+						}}
+					>
+						<div
+							style={{
+								marginLeft: '1.5vw',
+								fontSize: '1.8vw',
+								width: '90%',
+								textAlign: 'left',
+							}}
+						>
+							Fn Config...📄
+						</div>
+						<div
+							{...getRootProps()}
+							style={{
+								width: '90%',
+								height: '20vh',
+								marginBlockStart: '1.5vh',
+								marginBlockEnd: '3vh',
+								paddingLeft: '1vw',
+								paddingRight: '1vw',
+								border: '1.2px dashed #dddddd',
+								color: '#9d9d9d',
+								borderRadius: '5px',
+								alignItems: 'center',
+								display: 'flex',
+								fontSize: '0.8rem',
+								justifyContent: 'center',
+								alignContent: 'center',
+							}}
+						>
+							<input {...getInputProps()} />
+    						<div>Drag 'n' drop YAML file here, or click to select file</div>
 						</div>
 					</div>
 					<Hr />
@@ -192,22 +232,6 @@ const Auth = () => {
 							display: 'flex', flexDirection: 'column', width: '100%', marginBlockStart: '1vh', paddingBlockEnd: '6vh'
 						}}
 					>
-						<AuthForm
-							label="COMPARTMENT_ID"
-							name="compartment_id"
-							value={formData.compartment_id}
-							type="text"
-							onInputChange={handleInputChange}
-							infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
-						/>
-						<AuthForm
-							label="SUBNET_ID"
-							name="subnet_id"
-							value={formData.subnet_id}
-							type="text"
-							onInputChange={handleInputChange}
-							infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
-						/>
 						<AuthForm
 							label="USER"
 							name="user"
@@ -241,22 +265,6 @@ const Auth = () => {
 							infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
 						/>
 						<AuthForm
-							label="API_URL"
-							name="api_url"
-							value={formData.api_url}
-							type="text"
-							onInputChange={handleInputChange}
-							infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
-						/>
-						<AuthForm
-							label="REGISTRY"
-							name="registry"
-							value={formData.registry}
-							type="text"
-							onInputChange={handleInputChange}
-							infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
-						/>
-						<AuthForm
 							label="KEY_FILE"
 							name="key_file"
 							value={formData.key_file ? formData.key_file.name : ''}
@@ -265,33 +273,41 @@ const Auth = () => {
 							infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
 						/>
 						<AuthForm
-							label="FNAPP_NAME"
-							name="fnapp_name"
-							value={formData.fnapp_name}
+							label="API_URL"
+							name="api_url"
+							value={formData.api_url}
 							type="text"
 							onInputChange={handleInputChange}
 							infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
 						/>
 						<AuthForm
-							label="FNFNC_NAME"
-							name="fnfnc_name"
-							value={formData.fnfnc_name}
+							label="ORACLE.COMPARTMENT_ID"
+							name="compartment_id"
+							value={formData.compartment_id}
 							type="text"
 							onInputChange={handleInputChange}
 							infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
 						/>
 						<AuthForm
-							label="APIGW_NAME"
-							name="apigw_name"
-							value={formData.apigw_name}
+							label="ORACLE.PROFILE"
+							name="profile"
+							value={formData.profile}
 							type="text"
 							onInputChange={handleInputChange}
 							infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
 						/>
 						<AuthForm
-							label="APIDEPLOY_NAME"
-							name="apideploy_name"
-							value={formData.apideploy_name}
+							label="PROVIDER"
+							name="provider"
+							value={formData.provider}
+							type="text"
+							onInputChange={handleInputChange}
+							infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
+						/>
+						<AuthForm
+							label="REGISTRY"
+							name="registry"
+							value={formData.registry}
 							type="text"
 							onInputChange={handleInputChange}
 							infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
