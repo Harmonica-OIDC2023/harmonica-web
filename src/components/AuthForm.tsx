@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useState, useEffect } from 'react';
 import { FiCheckCircle, FiHelpCircle } from 'react-icons/fi';
 import { useDropzone } from 'react-dropzone';
 
@@ -14,6 +14,11 @@ interface Props {
 
 const AuthForm: React.FC<Props> = ({ label, name, value, type, onInputChange, infoLink }) => {
   const [inputValue, setInputValue] = useState<string | File>(value);
+
+  // Add a useEffect hook to update inputValue when value prop changes
+  useEffect(() => {
+    setInputValue(value);
+  }, [value]);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
