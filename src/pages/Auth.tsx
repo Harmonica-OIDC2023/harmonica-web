@@ -21,6 +21,10 @@ interface FormData {
 	profile: string;
 	provider: string;
 	registry: string;
+	fnapp_name: string;
+	fnfnc_name: string;
+	apigw_name: string;
+	apideploy_name: string;
   }
 
 const Auth = () => {
@@ -35,6 +39,10 @@ const Auth = () => {
 		profile: '',
 		provider: '',
 		registry: '',
+		fnapp_name: '',
+        fnfnc_name: '',
+        apigw_name: '',
+        apideploy_name: ''
 	});
 
 	const [iniFileName, setIniFileName] = useState<string | null>(null);
