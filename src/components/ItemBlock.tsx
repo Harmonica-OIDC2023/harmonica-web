@@ -4,7 +4,7 @@ import './ItemBlock.css';
 type MyComponentProps = {
     children?: ReactNode;
     style?: CSSProperties;
-    onClick?: React.MouseEventHandler<HTMLElement>
+    onClick?: React.MouseEventHandler<HTMLElement>;
 }
 
 function ItemBlock({ children, style, onClick }: MyComponentProps) {
