@@ -8,13 +8,14 @@ import { useDropzone } from 'react-dropzone';
 import Hr from '../components/Hr';
 import { FiCheckCircle } from 'react-icons/fi';
 import * as yaml from 'js-yaml';
+import * as ini from 'ini';
 
 interface FormData {
 	user: string;
 	fingerprint: string;
 	tenancy: string;
 	region: string;
-	key_file: File | null; // Specify the type as File | null
+	key_pem: File | null; // Specify the type as File | null
 	api_url: string;
 	compartment_id: string;
 	profile: string;
@@ -28,14 +29,14 @@ const Auth = () => {
 		fingerprint: '',
 		tenancy: '',
 		region: '',
-		key_file: null,
+		key_pem: null,
 		api_url: '',
 		compartment_id: '',
 		profile: '',
 		provider: '',
 		registry: '',
 	});
-	
+
 	const onDrop = useCallback((acceptedFiles: File[]) => {
 		const file = acceptedFiles[0]; // get the first file from the array
 		const reader = new FileReader();
@@ -50,6 +51,8 @@ const Auth = () => {
 						configData = yaml.safeLoad(reader.result); // Convert YAML to JSON
 					} else if (file.name.endsWith('.json')) {
 						configData = JSON.parse(reader.result); // Parse JSON
+					} else if (file.name.endsWith('.ini')) {
+						configData = ini.parse(reader.result); // Parse INI
 					} else {
 						console.error('Invalid file type');
 						return;
@@ -72,7 +75,7 @@ const Auth = () => {
 	const [isFormComplete, setIsFormComplete] = useState(false);
 
 	const nextHandler = () => {
-		// next 버튼 누르면 auth 페이지로 라우팅
+		// next 버튼 누르면 migration 페이지로 라우팅
 		if(isFormComplete) {
 			navigate('/migration');
 		}
@@ -91,15 +94,18 @@ const Auth = () => {
 		setIsFormComplete(isComplete);
 	}, [formData]);
 
-	const items = [
+	const cli_items = [
 		"USER",
 		"FINGERPRINT",
 		"TENANCY",
 		"REGION",
-		"KEY_FILE",
+		"KEY_PEM",
+	];
+
+	const fn_items = [
 		"API_URL",
-		"ORACLE.COMPARTMENT_ID",
-		"ORACLE.PROFILE",
+		"COMPARTMENT_ID",
+		"PROFILE",
 		"PROVIDER",
 		"REGISTRY",
 	];
@@ -116,8 +122,31 @@ const Auth = () => {
 	return (
 		<div className="screen">
 			<ItemBlock style={{ flex: 1, display: 'flex', flexDirection: 'column'}}>
-				<div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', paddingBlock: '5vh 3vh'}}>
-					{items.map((item, index) => {
+				<div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', paddingBlock: '4vh 1vh'}}>
+					<div style={{...idxStyle, fontSize: '2.2vh', marginLeft: '0.5vw'}}>
+						CLI Config
+					</div>
+					{cli_items.map((item, index) => {
+						const value = formData[item.toLowerCase() as keyof FormData];
+						const isFile = value instanceof File;
+						const isNonEmptyString = typeof value === 'string' && value !== '';
+						return (
+							<div key={index} style={idxStyle}>
+								<FiCheckCircle 
+									color={(isFile || isNonEmptyString) ? "green" : "#dddddd"} 
+									style={{ marginInline: '0.5rem'}}
+								/>
+								{item}
+							</div>
+						);
+					})}
+				</div>
+				<Hr />
+				<div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', paddingBlock: '2vh 3vh'}}>
+					<div style={{...idxStyle, fontSize: '2.2vh', marginLeft: '0.5vw'}}>
+						Fn Config
+					</div>
+					{fn_items.map((item, index) => {
 						const value = formData[item.toLowerCase() as keyof FormData];
 						const isFile = value instanceof File;
 						const isNonEmptyString = typeof value === 'string' && value !== '';
@@ -190,45 +219,6 @@ const Auth = () => {
 					{/* <Hr /> */}
 					<div
 						style={{
-							display: 'flex', flexDirection: 'column', width: '100%', height: '100%', alignItems: 'center'
-						}}
-					>
-						<div
-							style={{
-								marginLeft: '1.5vw',
-								fontSize: '1.8vw',
-								width: '90%',
-								textAlign: 'left',
-							}}
-						>
-							Fn Config...📄
-						</div>
-						<div
-							{...getRootProps()}
-							style={{
-								width: '90%',
-								height: '20vh',
-								marginBlockStart: '1.5vh',
-								marginBlockEnd: '3vh',
-								paddingLeft: '1vw',
-								paddingRight: '1vw',
-								border: '1.2px dashed #dddddd',
-								color: '#9d9d9d',
-								borderRadius: '5px',
-								alignItems: 'center',
-								display: 'flex',
-								fontSize: '0.8rem',
-								justifyContent: 'center',
-								alignContent: 'center',
-							}}
-						>
-							<input {...getInputProps()} />
-    						<div>Drag 'n' drop YAML file here, or click to select file</div>
-						</div>
-					</div>
-					<Hr />
-					<div
-						style={{
 							display: 'flex', flexDirection: 'column', width: '100%', marginBlockStart: '1vh', paddingBlockEnd: '6vh'
 						}}
 					>
@@ -265,13 +255,59 @@ const Auth = () => {
 							infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
 						/>
 						<AuthForm
-							label="KEY_FILE"
-							name="key_file"
-							value={formData.key_file ? formData.key_file.name : ''}
+							label="KEY_PEM"
+							name="key_pem"
+							value={formData.key_pem ? formData.key_pem.name : ''}
 							type="file"
 							onInputChange={handleInputChange}
 							infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
 						/>
+					</div>
+					<Hr />
+					<div
+						style={{
+							display: 'flex', flexDirection: 'column', width: '100%', height: '100%', alignItems: 'center', paddingBlockStart: '6vh'
+						}}
+					>
+						<div
+							style={{
+								marginLeft: '1.5vw',
+								fontSize: '1.8vw',
+								width: '90%',
+								textAlign: 'left',
+							}}
+						>
+							Fn Config...📄
+						</div>
+						<div
+							{...getRootProps()}
+							style={{
+								width: '90%',
+								height: '20vh',
+								marginBlockStart: '1.5vh',
+								marginBlockEnd: '3vh',
+								paddingLeft: '1vw',
+								paddingRight: '1vw',
+								border: '1.2px dashed #dddddd',
+								color: '#9d9d9d',
+								borderRadius: '5px',
+								alignItems: 'center',
+								display: 'flex',
+								fontSize: '0.8rem',
+								justifyContent: 'center',
+								alignContent: 'center',
+							}}
+						>
+							<input {...getInputProps()} />
+    						<div>Drag 'n' drop YAML file here, or click to select file</div>
+						</div>
+					</div>
+					{/* <Hr /> */}
+					<div
+						style={{
+							display: 'flex', flexDirection: 'column', width: '100%', marginBlockStart: '1vh', paddingBlockEnd: '6vh'
+						}}
+					>
 						<AuthForm
 							label="API_URL"
 							name="api_url"
@@ -281,7 +317,7 @@ const Auth = () => {
 							infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
 						/>
 						<AuthForm
-							label="ORACLE.COMPARTMENT_ID"
+							label="COMPARTMENT_ID"
 							name="compartment_id"
 							value={formData.compartment_id}
 							type="text"
@@ -289,7 +325,7 @@ const Auth = () => {
 							infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
 						/>
 						<AuthForm
-							label="ORACLE.PROFILE"
+							label="PROFILE"
 							name="profile"
 							value={formData.profile}
 							type="text"
