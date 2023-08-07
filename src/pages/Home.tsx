@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import './Home.css';
@@ -8,18 +8,15 @@ import NextButton from '../components/NextButton';
 
 const Home = () => {
 	const navigate = useNavigate();
-    const [isButtonClicked, setIsButtonClicked] = useState(false);
-
-    const clickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
-		// 클라우드 버튼 누르면 -> next 버튼 활성화
-        setIsButtonClicked(true);
-    };
+	const [selectedCloud, setSelectedCloud] = useState('')
 
     const nextHandler = () => {
 		// next 버튼 누르면 auth 페이지로 라우팅
-		if(isButtonClicked) {
+		if (selectedCloud === 'on-premise') {
 			navigate('/auth');
-		}
+		} else {
+			navigate('/migration');
+		} 
     };
 
 	return (
@@ -31,14 +28,14 @@ const Home = () => {
 			<Container className="mid">
 				<NextButton
 					onClick={nextHandler}
-					className={isButtonClicked ? 'next-button-active' : 'next-button'}
+					className={selectedCloud !== '' ? 'next-button-active' : 'next-button'}
 					style={{width: '25vw', height: '6vh', fontSize: '30px'}}
 				>
 					Next
                 </NextButton>
 			</Container>
 			<Container className="down">
-				<ItemBlock onClick={clickHandler}>
+				<ItemBlock onClick={(e) => { setSelectedCloud('on-premise');}}>
 					<div
 						style={{
 							width: '100%',
@@ -52,7 +49,7 @@ const Home = () => {
 					</div>
 				</ItemBlock>
                 <Vr />
-				<ItemBlock onClick={clickHandler}>
+				<ItemBlock onClick={(e) => { setSelectedCloud('oracle-cloud');}}>
 					<img src="assets/Oracle_Cloud_Platform-Logo.wine.png" alt='home icon' style={{width: '100%'}}/>
 				</ItemBlock>
 				<ItemBlock style={{pointerEvents:'none', background:'#fafafa', boxShadow:'0px 0px 4px rgba(0, 0, 0, 0.25)'}}>
