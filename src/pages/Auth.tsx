@@ -37,27 +37,34 @@ const Auth = () => {
 		registry: '',
 	});
 
-	const onDrop = useCallback((acceptedFiles: File[]) => {
-		const file = acceptedFiles[0]; // get the first file from the array
+	const [iniFileName, setIniFileName] = useState<string | null>(null);
+	const [YamlFileName, setYamlFileName] = useState<string | null>(null);
+
+	const onDropIni = useCallback((acceptedFiles: File[]) => {
+		const file = acceptedFiles[0]; 
 		const reader = new FileReader();
-	
+		setIniFileName(file.name);
+		
 		reader.onabort = () => console.log('file reading was aborted');
 		reader.onerror = () => console.log('file reading has failed');
 		reader.onload = () => {
 			if (typeof reader.result === 'string') {
 				try {
 					let configData;
-					if (file.name.endsWith('.yaml') || file.name.endsWith('.yml')) {
-						configData = yaml.safeLoad(reader.result); // Convert YAML to JSON
-					} else if (file.name.endsWith('.json')) {
-						configData = JSON.parse(reader.result); // Parse JSON
-					} else if (file.name.endsWith('.ini')) {
-						configData = ini.parse(reader.result); // Parse INI
+					if (file.name.endsWith('.ini')) {
+						configData = ini.parse(reader.result); 
+						const cliData = {
+							user: configData.DEFAULT.user || '',
+							fingerprint: configData.DEFAULT.fingerprint || '',
+							tenancy: configData.DEFAULT.tenancy || '',
+							region: configData.DEFAULT.region || '',
+							key_pem: formData.key_pem,
+						};
+						setFormData(prevState => ({ ...prevState, ...cliData}));
 					} else {
 						console.error('Invalid file type');
 						return;
 					}
-					setFormData(configData);
 				} catch (error) {
 					console.error('Failed to parse file:', error);
 				}
@@ -66,10 +73,69 @@ const Auth = () => {
 			}
 		};
 		reader.readAsText(file);
-	}, []);
+	}, [formData]);
 	
+	const onDropYaml = useCallback((acceptedFiles: File[]) => {
+		const file = acceptedFiles[0]; 
+		const reader = new FileReader();
+		setYamlFileName(file.name);
+		
+		reader.onabort = () => console.log('file reading was aborted');
+		reader.onerror = () => console.log('file reading has failed');
+		reader.onload = () => {
+			if (typeof reader.result === 'string') {
+				try {
+					let configData;
+					if (file.name.endsWith('.yaml') || file.name.endsWith('.yml')) {
+						configData = yaml.load(reader.result); // Use yaml.load instead of yaml.safeLoad
+						const fnData = {
+							api_url: configData['api-url'] || '',
+							compartment_id: configData['oracle.compartment-id'] || '',
+							profile: configData['oracle.profile'] || '',
+							provider: configData.provider || '',
+							registry: configData.registry || '',
+						};
+						setFormData(prevState => ({ ...prevState, ...fnData}));
+					} else {
+						console.error('Invalid file type');
+						return;
+					}
+				} catch (error) {
+					console.error('Failed to parse file:', error);
+				}
+			} else {
+				console.error('File content is not a string');
+			}
+		};
+		reader.readAsText(file);
+	}, []);	
 	
-	const {getRootProps, getInputProps} = useDropzone({onDrop});
+	const {
+		getRootProps: getRootPropsIni,
+		getInputProps: getInputPropsIni,
+	  } = useDropzone({onDrop: onDropIni});
+	  
+	const {
+	getRootProps: getRootPropsYaml,
+	getInputProps: getInputPropsYaml,
+	} = useDropzone({onDrop: onDropYaml});
+	  
+
+	const cli_items = [
+		"USER",
+		"FINGERPRINT",
+		"TENANCY",
+		"REGION",
+		"KEY_PEM",
+	];
+
+	const fn_items = [
+		"API_URL",
+		"COMPARTMENT_ID",
+		"PROFILE",
+		"PROVIDER",
+		"REGISTRY",
+	];
 
 	const navigate = useNavigate();
 	const [isFormComplete, setIsFormComplete] = useState(false);
@@ -93,22 +159,6 @@ const Auth = () => {
 		const isComplete = Object.values(formData).every((value) => value !== '' && value !== null);
 		setIsFormComplete(isComplete);
 	}, [formData]);
-
-	const cli_items = [
-		"USER",
-		"FINGERPRINT",
-		"TENANCY",
-		"REGION",
-		"KEY_PEM",
-	];
-
-	const fn_items = [
-		"API_URL",
-		"COMPARTMENT_ID",
-		"PROFILE",
-		"PROVIDER",
-		"REGISTRY",
-	];
 
 	const idxStyle = {
 		display: 'flex',
@@ -194,7 +244,7 @@ const Auth = () => {
 							CLI Config...📄
 						</div>
 						<div
-							{...getRootProps()}
+							{...getRootPropsIni()}
 							style={{
 								width: '90%',
 								height: '20vh',
@@ -212,8 +262,8 @@ const Auth = () => {
 								alignContent: 'center',
 							}}
 						>
-							<input {...getInputProps()} />
-    						<div>Drag 'n' drop Config file here, or click to select file</div>
+							<input {...getInputPropsIni()} />
+    						<div>{iniFileName ? iniFileName : "Drag 'n' drop **Ini** file here, or click to select file"}</div>
 						</div>
 					</div>
 					{/* <Hr /> */}
@@ -280,7 +330,7 @@ const Auth = () => {
 							Fn Config...📄
 						</div>
 						<div
-							{...getRootProps()}
+							{...getRootPropsYaml()}
 							style={{
 								width: '90%',
 								height: '20vh',
@@ -298,8 +348,8 @@ const Auth = () => {
 								alignContent: 'center',
 							}}
 						>
-							<input {...getInputProps()} />
-    						<div>Drag 'n' drop YAML file here, or click to select file</div>
+							<input {...getInputPropsYaml()} />
+    						<div>{YamlFileName ? YamlFileName : "Drag 'n' drop **Yaml** file here, or click to select file"}</div>
 						</div>
 					</div>
 					{/* <Hr /> */}
@@ -356,5 +406,3 @@ const Auth = () => {
 };
 
 export default Auth;
-
-
