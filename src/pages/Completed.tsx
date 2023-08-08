@@ -12,7 +12,7 @@ const Completed = () => {
 
     // spinner 유지 훅
     useEffect(() => {
-        setTimeout(() => setLoading(!loading), 2000);
+        setTimeout(() => setLoading(!loading), 200000);
     }, []);
 
     // div창 렌더링
