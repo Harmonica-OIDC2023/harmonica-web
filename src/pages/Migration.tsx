@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ItemBlock from '../components/ItemBlock';
 import { useDropzone } from 'react-dropzone';
-import { FiCheckCircle } from 'react-icons/fi';
 import './Main.css';
 import NextButton from '../components/NextButton';
 import AuthForm from '../components/AuthForm';
