@@ -2,6 +2,7 @@
   display: flex;
   height: 100vh;
   color:#4b4b4b;
+  background-color: rgba(0,0,0,0.01);
 }
 
 .App .app-main {
