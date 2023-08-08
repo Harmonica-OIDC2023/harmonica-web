@@ -81,7 +81,7 @@ const Migration = () => {
           style={{
             marginLeft: '1.5vw',
             fontSize: '1.8vw',
-            width: '90%',
+            width: '100%',
             textAlign: 'left',
           }}
         >
@@ -90,12 +90,8 @@ const Migration = () => {
         <div
           {...getRootPropsPy()}
           style={{
-            width: '90%',
+            width: '100%',
             height: '100%',
-            marginBlockStart: '1.5vh',
-            marginBlockEnd: '3vh',
-            paddingLeft: '1vw',
-            paddingRight: '1vw',
             border: '1.2px dashed #dddddd',
             color: '#9d9d9d',
             borderRadius: '5px',
@@ -197,14 +193,9 @@ const Migration = () => {
       </ItemBlock>
       <ItemBlock style={{ display: 'flex', flexDirection: 'column', flex: 2 }}>
         <div
-          style={{ display: 'flex', flexDirection: 'column', width: '100%', justifyContent: 'center', padding: '8px', height: '90%' }}
+          style={{ display: 'flex', flexDirection: 'column', width: '100%', justifyContent: 'center', padding: '3vh 3vw 5vh 3vw', height: '90%' }}
         >
           {renderInput()}
-          <div>
-            <div style={{ marginRight: 'auto', height: '100%', alignItems: 'center', marginBlockEnd: '0.15rem'}}>
-              {pyFileName ? <FiCheckCircle color="green" style={{ marginLeft: '0.5rem'}} /> : <FiCheckCircle color="#9d9d9d" style={{ marginLeft: '0.5rem'}} />}
-            </div>
-          </div>
         </div>
       </ItemBlock>
     </div>
