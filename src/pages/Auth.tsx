@@ -174,7 +174,7 @@ const Auth = () => {
 			<ItemBlock style={{ flex: 1, display: 'flex', flexDirection: 'column'}}>
 				<div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', paddingBlock: '4vh 1vh'}}>
 					<div style={{...idxStyle, fontSize: '2.2vh', marginLeft: '0.5vw'}}>
-						CLI Config
+						CLI Config_
 					</div>
 					{cli_items.map((item, index) => {
 						const value = formData[item.toLowerCase() as keyof FormData];
@@ -194,7 +194,7 @@ const Auth = () => {
 				<Hr />
 				<div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', paddingBlock: '2vh 3vh'}}>
 					<div style={{...idxStyle, fontSize: '2.2vh', marginLeft: '0.5vw'}}>
-						Fn Config
+						Fn Config_
 					</div>
 					{fn_items.map((item, index) => {
 						const value = formData[item.toLowerCase() as keyof FormData];
