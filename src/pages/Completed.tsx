@@ -8,11 +8,12 @@ const Completed = () => {
     const [loading, setLoading] = useState(false);
     const [showCompleted, setShowCompleted] = useState(false);
     const [opacity, setOpacity] = useState(0);
+    const [endPoint, setEndPoint] = useState('https://github.com/noooey/nonono.git');
     const navigate = useNavigate();
 
     // spinner 유지 훅
     useEffect(() => {
-        setTimeout(() => setLoading(!loading), 200000);
+        setTimeout(() => setLoading(!loading), 2000);
     }, []);
 
     // div창 렌더링
@@ -67,22 +68,29 @@ const Completed = () => {
                     </div>
                     <div style={{
                         marginTop: '1.5vh',
-                        backgroundColor: '#efefef',
+                        backgroundColor: 'white',
                         color: '#4b4b4b',
                         borderRadius: '12px',
                         fontSize: '1vw',
-                        width: '50vw',
+                        width: '40vw',
                         height: '35vh',
-                        padding: '2vh 2vw',
-                        boxShadow: '0px 1px 4px rgba(0, 0, 0, 0.25)'
+                        padding: '3vh 5vw',
+                        boxShadow: '0px 1px 4px rgba(0, 0, 0, 0.25)',
+                        justifyContent: 'center',
+                        // alignItems: 'center',
+                        display: 'flex',
+                        flexDirection: 'column',
                     }}>
-                        <p>echo "# nonono" README.md</p>
-                        <p>git init</p>
-                        <p>git add README.md</p>
-                        <p>git commit -m "first commit"</p>
-                        <p>git branch -M main</p>
-                        <p>git remote add origin https://github.com/noooey/nonono.git</p>
-                        <p>git push -u origin main</p>
+                        <p>Congratulations!🎉</p>
+                        <p>Migration is completed~✧٩(ˊωˋ*)و✧</p>
+                        <p>You can run this on the endpoint below👇</p>
+                        <p>
+                            <a href={endPoint} target="_blank" rel="noopener noreferrer">
+                                {endPoint}
+                            </a>
+                        </p>
+                        <p></p>
+                        <p>Thank you. See you again~👋</p>
                     </div>
                     <div
                         onClick={handleClick}
