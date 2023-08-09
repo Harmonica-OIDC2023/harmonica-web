@@ -7,6 +7,7 @@ import NextButton from '../components/NextButton';
 import AuthForm from '../components/AuthForm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { solarizedlight } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import axios from 'axios';
 
 interface FormData {
   docker_registry: string;
@@ -57,11 +58,25 @@ const Migration = () => {
 		setIsFormComplete(isComplete);
 	}, [formData]);
 
-	const migrationHandler = () => {
-		// next 버튼 누르면 migration 페이지로 라우팅
+	const migrationHandler = async () => {
+		// next 버튼 누르면 completed 페이지로 라우팅
 		if(isFormComplete) {
 			navigate('/completed');
 		}
+
+    // API Code HERE!!!!!!!!!!1
+    // if (isFormComplete) {
+    //   try {
+    //     // Convert formData for API request with File objects
+    //     await axios.get('YOUR_API_ENDPOINT_FOR_THE_REST', { params: formData });
+    //     navigate('/completed');
+    //   } catch (error) {
+    //     alert("Failed to submit form data to the API.");
+    //     console.error("API Error:", error);
+    //   }
+    // } else {
+    //   alert("Please fill in all the form fields.");
+    // }
 	};
 
   const {

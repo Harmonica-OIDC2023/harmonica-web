@@ -9,6 +9,7 @@ import Hr from '../components/Hr';
 import { FiCheckCircle } from 'react-icons/fi';
 import * as yaml from 'js-yaml';
 import * as ini from 'ini';
+import axios from 'axios';
 
 interface FormData {
 	user: string;
@@ -36,9 +37,22 @@ const Auth = () => {
 		provider: '',
 		registry: '',
 	});
-
+	const [isFormComplete, setIsFormComplete] = useState(false);
 	const [iniFileName, setIniFileName] = useState<string | null>(null);
 	const [YamlFileName, setYamlFileName] = useState<string | null>(null);
+
+	const handleInputChange = (name: string, value: string | File) => {
+		setFormData((prevFormData) => ({
+		...prevFormData,
+		[name]: value,
+		}));
+	};
+
+	// Check if all form fields have a value
+	useEffect(() => {
+		const isComplete = Object.values(formData).every((value) => value !== '' && value !== null);
+		setIsFormComplete(isComplete);
+	}, [formData]);
 
 	const onDropIni = useCallback((acceptedFiles: File[]) => {
 		const file = acceptedFiles[0]; 
@@ -138,27 +152,35 @@ const Auth = () => {
 	];
 
 	const navigate = useNavigate();
-	const [isFormComplete, setIsFormComplete] = useState(false);
 
-	const nextHandler = () => {
-		// next 버튼 누르면 migration 페이지로 라우팅
+	const nextHandler = async () => {
 		if(isFormComplete) {
 			navigate('/migration');
 		}
-	};
 
-	const handleInputChange = (name: string, value: string | File) => {
-		setFormData((prevFormData) => ({
-		...prevFormData,
-		[name]: value,
-		}));
-	};
 
-	// Check if all form fields have a value
-	useEffect(() => {
-		const isComplete = Object.values(formData).every((value) => value !== '' && value !== null);
-		setIsFormComplete(isComplete);
-	}, [formData]);
+		// API req here!!!!!
+		// if (isFormComplete) {
+		// 	try {
+		// 		// POST request for key.pem
+		// 		await axios.post('YOUR_API_ENDPOINT_FOR_KEY_PEM', { key_pem: formData.key_pem });
+	
+		// 		// Exclude key_pem for the GET request
+		// 		const { key_pem, ...restOfData } = formData;
+	
+		// 		// GET request for the rest of the data
+		// 		// Assuming that the backend expects these as query parameters.
+		// 		await axios.get('YOUR_API_ENDPOINT_FOR_THE_REST', { params: restOfData });
+	
+		// 		navigate('/migration');
+		// 	} catch (error) {
+		// 		alert("Failed to submit data to the API.");
+		// 		console.error("API Error:", error);
+		// 	}
+		// } else {
+		// 	alert("Please fill in all the form fields.");
+		// }
+	};
 
 	const idxStyle = {
 		display: 'flex',

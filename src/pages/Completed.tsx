@@ -3,17 +3,33 @@ import { useNavigate } from 'react-router-dom';
 import InProgressSpinner from '../components/InProgressSpinner';
 import Lottie from 'lottie-react';
 import animationData from '../components/lottie/animation_pink_check.json'; 
+import axios from 'axios';
 
 const Completed = () => {
     const [loading, setLoading] = useState(false);
     const [showCompleted, setShowCompleted] = useState(false);
     const [opacity, setOpacity] = useState(0);
-    const [endPoint, setEndPoint] = useState('https://github.com/noooey/nonono.git');
+    const [endpoint, setEndpoint] = useState<string | undefined>();
     const navigate = useNavigate();
 
     // spinner 유지 훅
     useEffect(() => {
+        // API response 열로 받음
+        // const fetchDataFromAPI = async () => {
+        //     try {
+        //       const response = await axios.get('YOUR_API_ENDPOINT_TO_CHECK_COMPLETION');
+        //       setEndpoint(response.data.endpoint); // Assuming the endpoint is returned as 'endpoint' key in the API response
+        //       setLoading(false);
+        //     } catch (error) {
+        //       console.error("Failed to fetch data from the API:", error);
+        //       setLoading(false); // Optionally, you might not want to set loading to false upon error.
+        //     }
+        // };
+      
+        // fetchDataFromAPI();
+
         setTimeout(() => setLoading(!loading), 2000);
+
     }, []);
 
     // div창 렌더링
@@ -85,8 +101,8 @@ const Completed = () => {
                         <p>Migration is completed~✧٩(ˊωˋ*)و✧</p>
                         <p>You can run this on the endpoint below👇</p>
                         <p>
-                            <a href={endPoint} target="_blank" rel="noopener noreferrer">
-                                {endPoint}
+                            <a href={endpoint} target="_blank" rel="noopener noreferrer">
+                                {endpoint}
                             </a>
                         </p>
                         <p></p>
