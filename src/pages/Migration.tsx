@@ -14,6 +14,7 @@ interface FormData {
   docker_pw: string;
   user_email: string;
   requirements: File | null;
+  func_name: string;
   func_file: File | null; // Specify the type as File | null
 }
 
@@ -23,6 +24,7 @@ const Migration = () => {
     docker_pw: '',
     user_email: '',
     requirements: null,
+    func_name: '',
     func_file: null,
   });
 
@@ -150,11 +152,11 @@ const Migration = () => {
   return (
     <div className="screen">
       <ItemBlock style={{
-							display: 'flex', flexDirection: 'column', width: '100%', marginBlockStart: '1vh', flex: 1}}
+							display: 'flex', flexDirection: 'column', width: '100%', flex: 1}}
       >
         <div
           style={{
-            display: 'flex', flexDirection: 'column', width: '100%', paddingBlock: '7vh 4vh'
+            display: 'flex', flexDirection: 'column', width: '100%', paddingBlock: '5vh 1vh'
           }}
         >
           <AuthForm
@@ -186,6 +188,14 @@ const Migration = () => {
             name="requirements"
             value={formData.requirements ? formData.requirements.name : ''}
             type="file"
+            onInputChange={handleInputChange}
+            infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
+          />
+          <AuthForm
+            label="FUNC_NAME"
+            name="func_name"
+            value={formData.func_name}
+            type="text"
             onInputChange={handleInputChange}
             infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
           />
