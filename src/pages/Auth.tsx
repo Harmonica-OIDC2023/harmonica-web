@@ -20,8 +20,8 @@ interface FormData {
 	key_pem: File | null; // Specify the type as File | null
 	api_url: string;
 	compartment_id: string;
-	profile: string;
-	provider: string;
+	// profile: string;
+	// provider: string;
 	registry: string;
 	fnapp_name: string;
 	apigw_name: string;
@@ -38,8 +38,8 @@ const Auth = () => {
 		key_pem: null,
 		api_url: '',
 		compartment_id: '',
-		profile: '',
-		provider: '',
+		// profile: '',
+		// provider: '',
 		registry: '',
 		fnapp_name: '',
 		apigw_name: '',
@@ -113,8 +113,8 @@ const Auth = () => {
 						const fnData = {
 							api_url: configData['api-url'] || '',
 							compartment_id: configData['oracle.compartment-id'] || '',
-							profile: configData['oracle.profile'] || '',
-							provider: configData.provider || '',
+							// profile: configData['oracle.profile'] || '',
+							// provider: configData.provider || '',
 							registry: configData.registry || '',
 						};
 						setFormData(prevState => ({ ...prevState, ...fnData}));
@@ -155,8 +155,8 @@ const Auth = () => {
 	const fn_items = [
 		"API_URL",
 		"COMPARTMENT_ID",
-		"PROFILE",
-		"PROVIDER",
+		// "PROFILE",
+		// "PROVIDER",
 		"REGISTRY",
 		"FNAPP_NAME",
 		"APIGW_NAME",
@@ -197,7 +197,7 @@ const Auth = () => {
 	const idxStyle = {
 		display: 'flex',
 		width: '100%',
-		height: '4.2vh',
+		height: '4.5vh',
 		TextAlign: 'left',
 		paddingInline: '1.5rem',
 		alignItems: 'center',
@@ -206,8 +206,8 @@ const Auth = () => {
 	return (
 		<div className="screen">
 			<ItemBlock style={{ flex: 1, display: 'flex', flexDirection: 'column'}}>
-				<div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', paddingBlock: '3vh 0vh'}}>
-					<div style={{...idxStyle, fontSize: '2.2vh', marginLeft: '0.5vw'}}>
+				<div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', paddingBlock: '4vh 1vh'}}>
+					<div style={{...idxStyle, fontSize: '2.2vh', marginLeft: '0.5vw', paddingBlockEnd: '0.5vh'}}>
 						CLI Config_
 					</div>
 					{cli_items.map((item, index) => {
@@ -226,8 +226,8 @@ const Auth = () => {
 					})}
 				</div>
 				<Hr />
-				<div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', paddingBlock: '1vh 2vh'}}>
-					<div style={{...idxStyle, fontSize: '2.2vh', marginLeft: '0.5vw'}}>
+				<div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', paddingBlock: '2vh 3vh'}}>
+					<div style={{...idxStyle, fontSize: '2.2vh', marginLeft: '0.5vw', paddingBlockEnd: '0.5vh'}}>
 						Fn Config_
 					</div>
 					{fn_items.map((item, index) => {
@@ -416,7 +416,7 @@ const Auth = () => {
 							onInputChange={handleInputChange}
 							infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
 						/>
-						<AuthForm
+						{/* <AuthForm
 							label="PROFILE"
 							name="profile"
 							value={formData.profile}
@@ -431,7 +431,7 @@ const Auth = () => {
 							type="text"
 							onInputChange={handleInputChange}
 							infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
-						/>
+						/> */}
 						<AuthForm
 							label="REGISTRY"
 							name="registry"

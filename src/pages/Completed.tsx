@@ -103,6 +103,7 @@ const Completed = () => {
                         <p>
                             <a href={endpoint} target="_blank" rel="noopener noreferrer">
                                 {endpoint}
+                            </a>
                         </p>
                         <p></p>
                         <p>Thank you. See you again~👋</p>
