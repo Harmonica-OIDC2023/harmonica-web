@@ -9,20 +9,21 @@ import Hr from '../components/Hr';
 import { FiCheckCircle } from 'react-icons/fi';
 import * as yaml from 'js-yaml';
 import * as ini from 'ini';
+// import axios from 'axios';
 
 interface FormData {
 	user: string;
 	fingerprint: string;
 	tenancy: string;
 	region: string;
+	subnet_id: string;
 	key_pem: File | null; // Specify the type as File | null
 	api_url: string;
 	compartment_id: string;
-	profile: string;
-	provider: string;
+	// profile: string;
+	// provider: string;
 	registry: string;
 	fnapp_name: string;
-	fnfnc_name: string;
 	apigw_name: string;
 	apideploy_name: string;
   }
@@ -33,20 +34,33 @@ const Auth = () => {
 		fingerprint: '',
 		tenancy: '',
 		region: '',
+		subnet_id: '',
 		key_pem: null,
 		api_url: '',
 		compartment_id: '',
-		profile: '',
-		provider: '',
+		// profile: '',
+		// provider: '',
 		registry: '',
 		fnapp_name: '',
-        fnfnc_name: '',
-        apigw_name: '',
-        apideploy_name: ''
+		apigw_name: '',
+		apideploy_name: '',
 	});
-
+	const [isFormComplete, setIsFormComplete] = useState(false);
 	const [iniFileName, setIniFileName] = useState<string | null>(null);
 	const [YamlFileName, setYamlFileName] = useState<string | null>(null);
+
+	const handleInputChange = (name: string, value: string | File) => {
+		setFormData((prevFormData) => ({
+		...prevFormData,
+		[name]: value,
+		}));
+	};
+
+	// Check if all form fields have a value
+	useEffect(() => {
+		const isComplete = Object.values(formData).every((value) => value !== '' && value !== null);
+		setIsFormComplete(isComplete);
+	}, [formData]);
 
 	const onDropIni = useCallback((acceptedFiles: File[]) => {
 		const file = acceptedFiles[0]; 
@@ -99,8 +113,8 @@ const Auth = () => {
 						const fnData = {
 							api_url: configData['api-url'] || '',
 							compartment_id: configData['oracle.compartment-id'] || '',
-							profile: configData['oracle.profile'] || '',
-							provider: configData.provider || '',
+							// profile: configData['oracle.profile'] || '',
+							// provider: configData.provider || '',
 							registry: configData.registry || '',
 						};
 						setFormData(prevState => ({ ...prevState, ...fnData}));
@@ -134,44 +148,58 @@ const Auth = () => {
 		"FINGERPRINT",
 		"TENANCY",
 		"REGION",
+		"SUBNET_ID",
 		"KEY_PEM",
 	];
 
 	const fn_items = [
 		"API_URL",
 		"COMPARTMENT_ID",
-		"PROFILE",
-		"PROVIDER",
+		// "PROFILE",
+		// "PROVIDER",
 		"REGISTRY",
+		"FNAPP_NAME",
+		"APIGW_NAME",
+		"APIDEPLOY_NAME",
 	];
 
 	const navigate = useNavigate();
-	const [isFormComplete, setIsFormComplete] = useState(false);
+	// const location = useLocation();
+	// const currentLocationState = location.state;
 
 	const nextHandler = () => {
-		// next 버튼 누르면 migration 페이지로 라우팅
-		if(isFormComplete) {
-			navigate('/migration');
+		if (isFormComplete) {
+			navigate("/migration", { state: { formData } });
 		}
-	};
 
-	const handleInputChange = (name: string, value: string | File) => {
-		setFormData((prevFormData) => ({
-		...prevFormData,
-		[name]: value,
-		}));
-	};
 
-	// Check if all form fields have a value
-	useEffect(() => {
-		const isComplete = Object.values(formData).every((value) => value !== '' && value !== null);
-		setIsFormComplete(isComplete);
-	}, [formData]);
+		// API req here!!!!!
+		// if (isFormComplete) {
+		// 	try {
+		// 		// POST request for key.pem
+		// 		await axios.post('YOUR_API_ENDPOINT_FOR_KEY_PEM', { key_pem: formData.key_pem });
+	
+		// 		// Exclude key_pem for the GET request
+		// 		const { key_pem, ...restOfData } = formData;
+	
+		// 		// GET request for the rest of the data
+		// 		// Assuming that the backend expects these as query parameters.
+		// 		await axios.get('YOUR_API_ENDPOINT_FOR_THE_REST', { params: restOfData });
+	
+		// 		navigate('/migration');
+		// 	} catch (error) {
+		// 		alert("Failed to submit data to the API.");
+		// 		console.error("API Error:", error);
+		// 	}
+		// } else {
+		// 	alert("Please fill in all the form fields.");
+		// }
+	};
 
 	const idxStyle = {
 		display: 'flex',
 		width: '100%',
-		height: '5vh',
+		height: '4.5vh',
 		TextAlign: 'left',
 		paddingInline: '1.5rem',
 		alignItems: 'center',
@@ -181,7 +209,7 @@ const Auth = () => {
 		<div className="screen">
 			<ItemBlock style={{ flex: 1, display: 'flex', flexDirection: 'column'}}>
 				<div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', paddingBlock: '4vh 1vh'}}>
-					<div style={{...idxStyle, fontSize: '2.2vh', marginLeft: '0.5vw'}}>
+					<div style={{...idxStyle, fontSize: '2.2vh', marginLeft: '0.5vw', paddingBlockEnd: '0.5vh'}}>
 						CLI Config_
 					</div>
 					{cli_items.map((item, index) => {
@@ -201,7 +229,7 @@ const Auth = () => {
 				</div>
 				<Hr />
 				<div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', paddingBlock: '2vh 3vh'}}>
-					<div style={{...idxStyle, fontSize: '2.2vh', marginLeft: '0.5vw'}}>
+					<div style={{...idxStyle, fontSize: '2.2vh', marginLeft: '0.5vw', paddingBlockEnd: '0.5vh'}}>
 						Fn Config_
 					</div>
 					{fn_items.map((item, index) => {
@@ -313,6 +341,14 @@ const Auth = () => {
 							infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
 						/>
 						<AuthForm
+							label="SUBNET_ID"
+							name="subnet_id"
+							value={formData.subnet_id}
+							type="text"
+							onInputChange={handleInputChange}
+							infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
+						/>
+						<AuthForm
 							label="KEY_PEM"
 							name="key_pem"
 							value={formData.key_pem ? formData.key_pem.name : ''}
@@ -382,7 +418,7 @@ const Auth = () => {
 							onInputChange={handleInputChange}
 							infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
 						/>
-						<AuthForm
+						{/* <AuthForm
 							label="PROFILE"
 							name="profile"
 							value={formData.profile}
@@ -397,11 +433,35 @@ const Auth = () => {
 							type="text"
 							onInputChange={handleInputChange}
 							infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
-						/>
+						/> */}
 						<AuthForm
 							label="REGISTRY"
 							name="registry"
 							value={formData.registry}
+							type="text"
+							onInputChange={handleInputChange}
+							infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
+						/>
+						<AuthForm
+							label="FNAPP_NAME"
+							name="fnapp_name"
+							value={formData.fnapp_name}
+							type="text"
+							onInputChange={handleInputChange}
+							infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
+						/>
+						<AuthForm
+							label="APIGW_NAME"
+							name="apigw_name"
+							value={formData.apigw_name}
+							type="text"
+							onInputChange={handleInputChange}
+							infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
+						/>
+						<AuthForm
+							label="APIDEPLOY_NAME"
+							name="apideploy_name"
+							value={formData.apideploy_name}
 							type="text"
 							onInputChange={handleInputChange}
 							infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'

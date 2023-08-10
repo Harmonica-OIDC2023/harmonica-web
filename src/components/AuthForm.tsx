@@ -79,7 +79,7 @@ const AuthForm: React.FC<Props> = ({ label, name, value, type, onInputChange, in
   };  
 
   return (
-    <div style={{ display: 'flex', height: '15vh', width: '100%', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '1vh 4vw', color: '#4b4b4b' }}>
+    <div style={{ display: 'flex', height: '14vh', width: '100%', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '1vh 4vw', color: '#4b4b4b' }}>
       <label style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', flex: '1', width: '100%', marginLeft: '1vw', }}>
         <span style={{ marginRight: '0.5rem', paddingBlock: '1vh', fontSize: '1rem' }}>{label}</span>
         <div style={{ display: 'flex', marginRight: 'auto', height: '100%', alignItems: 'center'}}>
