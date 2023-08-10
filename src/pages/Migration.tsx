@@ -33,11 +33,6 @@ const Migration = () => {
     ...receivedFormData,
   });
 
-
-  useEffect(() => {
-    console.log(funcData);
-  }, [funcData]);
-
   const [pyFileName, setPyFileName] = useState<string | null>(null);
 	const [isFormComplete, setIsFormComplete] = useState(false);
 
