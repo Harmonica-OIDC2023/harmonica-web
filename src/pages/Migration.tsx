@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import ItemBlock from '../components/ItemBlock';
 import { useDropzone } from 'react-dropzone';
 import './Main.css';
@@ -9,7 +9,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { solarizedlight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import axios from 'axios';
 
-interface FormData {
+interface FuncData {
   docker_registry: string;
   docker_pw: string;
   user_email: string;
@@ -19,22 +19,31 @@ interface FormData {
 }
 
 const Migration = () => {
-  const [formData, setFormData] = useState<FormData>({
+  const navigate = useNavigate();
+  const location = useLocation();
+  const receivedFormData = location.state?.formData;
+  
+  const [funcData, setFuncData] = useState<FuncData>({
     docker_registry: '',
     docker_pw: '',
     user_email: '',
     requirements: null,
     func_name: '',
     func_file: null,
+    ...receivedFormData,
   });
 
-  const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log(funcData);
+  }, [funcData]);
+
   const [pyFileName, setPyFileName] = useState<string | null>(null);
 	const [isFormComplete, setIsFormComplete] = useState(false);
 
   const handleInputChange = (name: string, value: string | File) => {
-		setFormData((prevFormData) => ({
-		...prevFormData,
+		setFuncData((prevFuncData) => ({
+		...prevFuncData,
 		[name]: value,
 		}));
 	};
@@ -44,7 +53,7 @@ const Migration = () => {
   const onDropPy = useCallback((acceptedFiles: File[]) => {
     const file = acceptedFiles[0]; 
     setPyFileName(file.name);
-    setFormData(prevState => ({ ...prevState, func_file: file }));
+    setFuncData(prevState => ({ ...prevState, func_file: file }));
 
     // Read the file content
     const reader = new FileReader();
@@ -56,30 +65,27 @@ const Migration = () => {
 
   // Check if all form fields have a value
 	useEffect(() => {
-		const isComplete = Object.values(formData).every((value) => value !== '' && value !== null);
+		const isComplete = Object.values(funcData).every((value) => value !== '' && value !== null);
 		setIsFormComplete(isComplete);
-	}, [formData]);
+	}, [funcData]);
 
 	const migrationHandler = async () => {
-		// next 버튼 누르면 completed 페이지로 라우팅
-		if(isFormComplete) {
-			navigate('/completed');
-		}
+    if (isFormComplete) {
+      try {
+        // Choose the API endpoint based on the presence of receivedFormData
+        const apiEndpoint = receivedFormData ? '/api/v1/migration/knative-to-oci' : '/api/v1/migration/oci-to-knative';
 
-    // API Code HERE!!!!!!!!!!1
-    // if (isFormComplete) {
-    //   try {
-    //     // Convert formData for API request with File objects
-    //     await axios.get('YOUR_API_ENDPOINT_FOR_THE_REST', { params: formData });
-    //     navigate('/completed');
-    //   } catch (error) {
-    //     alert("Failed to submit form data to the API.");
-    //     console.error("API Error:", error);
-    //   }
-    // } else {
-    //   alert("Please fill in all the form fields.");
-    // }
-	};
+        // Convert formData for API request with File objects
+        await axios.post(apiEndpoint, { params: funcData });
+        navigate('/completed');
+      } catch (error) {
+        alert("Failed to submit form data to the API.");
+        console.error("API Error:", error);
+      }
+    } else {
+      alert("Please fill in all the form fields.");
+    }
+  };
 
   const {
 		getRootProps: getRootPropsPy,
@@ -162,7 +168,7 @@ const Migration = () => {
           <AuthForm
             label="DOCKER_REGISTRY"
             name="docker_registry"
-            value={formData.docker_registry}
+            value={funcData.docker_registry}
             type="text"
             onInputChange={handleInputChange}
             infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
@@ -170,7 +176,7 @@ const Migration = () => {
           <AuthForm
             label="DOCKER_PW"
             name="docker_pw"
-            value={formData.docker_pw}
+            value={funcData.docker_pw}
             type="text"
             onInputChange={handleInputChange}
             infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
@@ -178,7 +184,7 @@ const Migration = () => {
           <AuthForm
             label="USER_EMAIL"
             name="user_email"
-            value={formData.user_email}
+            value={funcData.user_email}
             type="text"
             onInputChange={handleInputChange}
             infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
@@ -186,7 +192,7 @@ const Migration = () => {
           <AuthForm
             label="REQUIREMENTS"
             name="requirements"
-            value={formData.requirements ? formData.requirements.name : ''}
+            value={funcData.requirements ? funcData.requirements.name : ''}
             type="file"
             onInputChange={handleInputChange}
             infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
@@ -194,7 +200,7 @@ const Migration = () => {
           <AuthForm
             label="FUNC_NAME"
             name="func_name"
-            value={formData.func_name}
+            value={funcData.func_name}
             type="text"
             onInputChange={handleInputChange}
             infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'

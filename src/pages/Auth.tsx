@@ -9,7 +9,7 @@ import Hr from '../components/Hr';
 import { FiCheckCircle } from 'react-icons/fi';
 import * as yaml from 'js-yaml';
 import * as ini from 'ini';
-import axios from 'axios';
+// import axios from 'axios';
 
 interface FormData {
 	user: string;
@@ -164,10 +164,12 @@ const Auth = () => {
 	];
 
 	const navigate = useNavigate();
+	// const location = useLocation();
+	// const currentLocationState = location.state;
 
-	const nextHandler = async () => {
-		if(isFormComplete) {
-			navigate('/migration');
+	const nextHandler = () => {
+		if (isFormComplete) {
+			navigate("/migration", { state: { formData } });
 		}
 
 
