@@ -1,38 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-// import InProgressSpinner from '../components/InProgressSpinner';
 import Lottie from 'lottie-react';
 import animationData from '../components/lottie/animation_pink_check.json'; 
-// import axios from 'axios';
 
 const Completed = () => {
-    // const [loading, setLoading] = useState(false);
     const [showCompleted, setShowCompleted] = useState(true);
     const [opacity, setOpacity] = useState(0);
     const [endpoint, setEndpoint] = useState<string | undefined>();
     const navigate = useNavigate();
     const location = useLocation();
     const receivedFormData = location.state?.endpoint;
-
-    // // spinner 유지 훅
-    // useEffect(() => {
-    //     // API response 열로 받음
-    //     const fetchDataFromAPI = async () => {
-    //         try {
-    //           const response = await axios.get('YOUR_API_ENDPOINT_TO_CHECK_COMPLETION');
-    //           setEndpoint(response.data.endpoint); // Assuming the endpoint is returned as 'endpoint' key in the API response
-    //           setLoading(false);
-    //         } catch (error) {
-    //           console.error("Failed to fetch data from the API:", error);
-    //           setLoading(false); // Optionally, you might not want to set loading to false upon error.
-    //         }
-    //     };
-      
-    //     fetchDataFromAPI();
-
-    //     // setTimeout(() => setLoading(!loading), 2000);
-
-    // }, []);
 
     useEffect(() => {
         setEndpoint(receivedFormData)
@@ -46,16 +23,13 @@ const Completed = () => {
         }
     }, [showCompleted]);
 
-    // // 로딩 중이라면 spinner 보여주기
-    // if (loading === false) return <InProgressSpinner />;
-
     const style = {
         width: '40vw',
     };
 
-    // const handleAnimationComplete = () => {
-    //     setShowCompleted(true);
-    // }
+    const handleAnimationComplete = () => {
+        setShowCompleted(true);
+    }
 
     const handleClick = (event: React.MouseEvent<HTMLHeadingElement>) => {
         navigate('/');
@@ -75,7 +49,7 @@ const Completed = () => {
                     autoplay={true}
                     style={style} 
                     rendererSettings={{preserveAspectRatio: 'xMidYMid slice'}}
-                    // onComplete={handleAnimationComplete}
+                    onComplete={handleAnimationComplete}
                 />
             )}
             {showCompleted && (
