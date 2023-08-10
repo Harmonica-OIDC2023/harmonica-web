@@ -20,8 +20,6 @@ interface FormData {
 	key_pem: File | null; // Specify the type as File | null
 	api_url: string;
 	compartment_id: string;
-	// profile: string;
-	// provider: string;
 	registry: string;
 	fnapp_name: string;
 	apigw_name: string;
@@ -38,8 +36,6 @@ const Auth = () => {
 		key_pem: null,
 		api_url: '',
 		compartment_id: '',
-		// profile: '',
-		// provider: '',
 		registry: '',
 		fnapp_name: '',
 		apigw_name: '',
@@ -113,8 +109,6 @@ const Auth = () => {
 						const fnData = {
 							api_url: configData['api-url'] || '',
 							compartment_id: configData['oracle.compartment-id'] || '',
-							// profile: configData['oracle.profile'] || '',
-							// provider: configData.provider || '',
 							registry: configData.registry || '',
 						};
 						setFormData(prevState => ({ ...prevState, ...fnData}));
@@ -155,8 +149,6 @@ const Auth = () => {
 	const fn_items = [
 		"API_URL",
 		"COMPARTMENT_ID",
-		// "PROFILE",
-		// "PROVIDER",
 		"REGISTRY",
 		"FNAPP_NAME",
 		"APIGW_NAME",
@@ -171,29 +163,6 @@ const Auth = () => {
 		if (isFormComplete) {
 			navigate("/migration", { state: { formData } });
 		}
-
-
-		// API req here!!!!!
-		// if (isFormComplete) {
-		// 	try {
-		// 		// POST request for key.pem
-		// 		await axios.post('YOUR_API_ENDPOINT_FOR_KEY_PEM', { key_pem: formData.key_pem });
-	
-		// 		// Exclude key_pem for the GET request
-		// 		const { key_pem, ...restOfData } = formData;
-	
-		// 		// GET request for the rest of the data
-		// 		// Assuming that the backend expects these as query parameters.
-		// 		await axios.get('YOUR_API_ENDPOINT_FOR_THE_REST', { params: restOfData });
-	
-		// 		navigate('/migration');
-		// 	} catch (error) {
-		// 		alert("Failed to submit data to the API.");
-		// 		console.error("API Error:", error);
-		// 	}
-		// } else {
-		// 	alert("Please fill in all the form fields.");
-		// }
 	};
 
 	const idxStyle = {
@@ -302,7 +271,6 @@ const Auth = () => {
     						<div>{iniFileName ? iniFileName : "Drag 'n' drop **Ini** file here, or click to select file"}</div>
 						</div>
 					</div>
-					{/* <Hr /> */}
 					<div
 						style={{
 							display: 'flex', flexDirection: 'column', width: '100%', marginBlockStart: '1vh', paddingBlockEnd: '6vh'
@@ -418,22 +386,6 @@ const Auth = () => {
 							onInputChange={handleInputChange}
 							infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
 						/>
-						{/* <AuthForm
-							label="PROFILE"
-							name="profile"
-							value={formData.profile}
-							type="text"
-							onInputChange={handleInputChange}
-							infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
-						/>
-						<AuthForm
-							label="PROVIDER"
-							name="provider"
-							value={formData.provider}
-							type="text"
-							onInputChange={handleInputChange}
-							infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
-						/> */}
 						<AuthForm
 							label="REGISTRY"
 							name="registry"
