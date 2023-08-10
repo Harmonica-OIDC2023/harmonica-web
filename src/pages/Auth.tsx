@@ -69,8 +69,7 @@ const Auth = () => {
 			if (typeof reader.result === 'string') {
 				try {
 					let configData;
-					if (file.name.endsWith('.ini')) {
-						configData = ini.parse(reader.result); 
+					configData = ini.parse(reader.result); 
 						const cliData = {
 							user: configData.DEFAULT.user || '',
 							fingerprint: configData.DEFAULT.fingerprint || '',
@@ -79,10 +78,20 @@ const Auth = () => {
 							key_pem: formData.key_pem,
 						};
 						setFormData(prevState => ({ ...prevState, ...cliData}));
-					} else {
-						console.error('Invalid file type');
-						return;
-					}
+					// if (file.name.endsWith('.ini')) {
+					// 	configData = ini.parse(reader.result); 
+					// 	const cliData = {
+					// 		user: configData.DEFAULT.user || '',
+					// 		fingerprint: configData.DEFAULT.fingerprint || '',
+					// 		tenancy: configData.DEFAULT.tenancy || '',
+					// 		region: configData.DEFAULT.region || '',
+					// 		key_pem: formData.key_pem,
+					// 	};
+					// 	setFormData(prevState => ({ ...prevState, ...cliData}));
+					// } else {
+					// 	console.error('Invalid file type');
+					// 	return;
+					// }
 				} catch (error) {
 					console.error('Failed to parse file:', error);
 				}
