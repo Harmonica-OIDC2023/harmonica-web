@@ -16,12 +16,16 @@ interface FormData {
 	fingerprint: string;
 	tenancy: string;
 	region: string;
+	subnet_id: string;
 	key_pem: File | null; // Specify the type as File | null
 	api_url: string;
 	compartment_id: string;
 	profile: string;
 	provider: string;
 	registry: string;
+	fnapp_name: string;
+	apigw_name: string;
+	apideploy_name: string;
   }
 
 const Auth = () => {
@@ -30,12 +34,16 @@ const Auth = () => {
 		fingerprint: '',
 		tenancy: '',
 		region: '',
+		subnet_id: '',
 		key_pem: null,
 		api_url: '',
 		compartment_id: '',
 		profile: '',
 		provider: '',
 		registry: '',
+		fnapp_name: '',
+		apigw_name: '',
+		apideploy_name: '',
 	});
 	const [isFormComplete, setIsFormComplete] = useState(false);
 	const [iniFileName, setIniFileName] = useState<string | null>(null);
@@ -140,6 +148,7 @@ const Auth = () => {
 		"FINGERPRINT",
 		"TENANCY",
 		"REGION",
+		"SUBNET_ID",
 		"KEY_PEM",
 	];
 
@@ -149,6 +158,9 @@ const Auth = () => {
 		"PROFILE",
 		"PROVIDER",
 		"REGISTRY",
+		"FNAPP_NAME",
+		"APIGW_NAME",
+		"APIDEPLOY_NAME",
 	];
 
 	const navigate = useNavigate();
@@ -185,7 +197,7 @@ const Auth = () => {
 	const idxStyle = {
 		display: 'flex',
 		width: '100%',
-		height: '5vh',
+		height: '4.2vh',
 		TextAlign: 'left',
 		paddingInline: '1.5rem',
 		alignItems: 'center',
@@ -194,7 +206,7 @@ const Auth = () => {
 	return (
 		<div className="screen">
 			<ItemBlock style={{ flex: 1, display: 'flex', flexDirection: 'column'}}>
-				<div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', paddingBlock: '4vh 1vh'}}>
+				<div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', paddingBlock: '3vh 0vh'}}>
 					<div style={{...idxStyle, fontSize: '2.2vh', marginLeft: '0.5vw'}}>
 						CLI Config_
 					</div>
@@ -214,7 +226,7 @@ const Auth = () => {
 					})}
 				</div>
 				<Hr />
-				<div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', paddingBlock: '2vh 3vh'}}>
+				<div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', paddingBlock: '1vh 2vh'}}>
 					<div style={{...idxStyle, fontSize: '2.2vh', marginLeft: '0.5vw'}}>
 						Fn Config_
 					</div>
@@ -327,6 +339,14 @@ const Auth = () => {
 							infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
 						/>
 						<AuthForm
+							label="SUBNET_ID"
+							name="subnet_id"
+							value={formData.subnet_id}
+							type="text"
+							onInputChange={handleInputChange}
+							infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
+						/>
+						<AuthForm
 							label="KEY_PEM"
 							name="key_pem"
 							value={formData.key_pem ? formData.key_pem.name : ''}
@@ -416,6 +436,30 @@ const Auth = () => {
 							label="REGISTRY"
 							name="registry"
 							value={formData.registry}
+							type="text"
+							onInputChange={handleInputChange}
+							infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
+						/>
+						<AuthForm
+							label="FNAPP_NAME"
+							name="fnapp_name"
+							value={formData.fnapp_name}
+							type="text"
+							onInputChange={handleInputChange}
+							infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
+						/>
+						<AuthForm
+							label="APIGW_NAME"
+							name="apigw_name"
+							value={formData.apigw_name}
+							type="text"
+							onInputChange={handleInputChange}
+							infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
+						/>
+						<AuthForm
+							label="APIDEPLOY_NAME"
+							name="apideploy_name"
+							value={formData.apideploy_name}
 							type="text"
 							onInputChange={handleInputChange}
 							infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
