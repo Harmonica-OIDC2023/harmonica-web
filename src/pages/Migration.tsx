@@ -7,6 +7,8 @@ import NextButton from '../components/NextButton';
 import AuthForm from '../components/AuthForm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { solarizedlight } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import InProgressSpinner from '../components/InProgressSpinner';
+import Lottie from 'lottie-react';
 import axios from 'axios';
 
 interface FuncData {
@@ -22,6 +24,7 @@ const Migration = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const receivedFormData = location.state?.formData;
+  const [loading, setLoading] = useState(false);
   
   const [funcData, setFuncData] = useState<FuncData>({
     docker_registry: '',
@@ -66,19 +69,21 @@ const Migration = () => {
 
 	const migrationHandler = async () => {
     if (isFormComplete) {
-      try {
-        // Choose the API endpoint based on the presence of receivedFormData
-        const apiEndpoint = receivedFormData ? '/api/v1/migration/knative-to-oci' : '/api/v1/migration/oci-to-knative';
+        setLoading(true);
+        try {
+            // Choose the API endpoint based on the presence of receivedFormData
+            const apiEndpoint = receivedFormData ? '/api/v1/migration/knative-to-oci' : '/api/v1/migration/oci-to-knative';
 
-        // Convert formData for API request with File objects
-        await axios.post(apiEndpoint, { params: funcData });
-        navigate('/completed');
-      } catch (error) {
-        alert("Failed to submit form data to the API.");
-        console.error("API Error:", error);
-      }
+            const response = await axios.post(apiEndpoint, { params: funcData });
+            setLoading(false);
+            navigate("/completed", { state: { endpoint: response.data.endpoint } });
+        } catch (error) {
+            alert("Failed to submit form data to the API.");
+            console.error("API Error:", error);
+            setLoading(false);
+        }
     } else {
-      alert("Please fill in all the form fields.");
+        alert("Please fill in all the form fields.");
     }
   };
 
@@ -150,81 +155,86 @@ const Migration = () => {
     );
   }
 
-  return (
-    <div className="screen">
-      <ItemBlock style={{
-							display: 'flex', flexDirection: 'column', width: '100%', flex: 1}}
-      >
-        <div
-          style={{
-            display: 'flex', flexDirection: 'column', width: '100%', paddingBlock: '5vh 1vh'
-          }}
+  // 로딩 중이라면 spinner 보여주기
+  if (loading) {
+    return <InProgressSpinner />;
+  } else {
+    return (
+      <div className="screen">
+        <ItemBlock style={{
+                display: 'flex', flexDirection: 'column', width: '100%', flex: 1}}
         >
-          <AuthForm
-            label="DOCKER_REGISTRY"
-            name="docker_registry"
-            value={funcData.docker_registry}
-            type="text"
-            onInputChange={handleInputChange}
-            infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
-          />
-          <AuthForm
-            label="DOCKER_PW"
-            name="docker_pw"
-            value={funcData.docker_pw}
-            type="text"
-            onInputChange={handleInputChange}
-            infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
-          />
-          <AuthForm
-            label="USER_EMAIL"
-            name="user_email"
-            value={funcData.user_email}
-            type="text"
-            onInputChange={handleInputChange}
-            infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
-          />
-          <AuthForm
-            label="REQUIREMENTS"
-            name="requirements"
-            value={funcData.requirements ? funcData.requirements.name : ''}
-            type="file"
-            onInputChange={handleInputChange}
-            infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
-          />
-          <AuthForm
-            label="FUNC_NAME"
-            name="func_name"
-            value={funcData.func_name}
-            type="text"
-            onInputChange={handleInputChange}
-            infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
-          />
-        </div>
-        <div
-        style={{
-          display: 'flex', flexDirection: 'column', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center'
-        }}
-        >
-          <NextButton
-            disabled={!isFormComplete || !isFormComplete}
-            className={isFormComplete ? 'next-button-active' : 'next-button'}
-            onClick={migrationHandler}
-            style={{width: '100%', height: '100%', fontSize: '30px', borderRadius: '0 0 12px 12px' }}
+          <div
+            style={{
+              display: 'flex', flexDirection: 'column', width: '100%', paddingBlock: '5vh 1vh'
+            }}
           >
-            migration
-          </NextButton>
-				</div>
-      </ItemBlock>
-      <ItemBlock style={{ display: 'flex', flexDirection: 'column', flex: 2 }}>
-        <div
-          style={{ display: 'flex', flexDirection: 'column', width: '100%', justifyContent: 'center', padding: '3vh 3vw 5vh 3vw', height: '90%' }}
-        >
-          {renderInput()}
-        </div>
-      </ItemBlock>
-    </div>
-  );
+            <AuthForm
+              label="DOCKER_REGISTRY"
+              name="docker_registry"
+              value={funcData.docker_registry}
+              type="text"
+              onInputChange={handleInputChange}
+              infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
+            />
+            <AuthForm
+              label="DOCKER_PW"
+              name="docker_pw"
+              value={funcData.docker_pw}
+              type="text"
+              onInputChange={handleInputChange}
+              infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
+            />
+            <AuthForm
+              label="USER_EMAIL"
+              name="user_email"
+              value={funcData.user_email}
+              type="text"
+              onInputChange={handleInputChange}
+              infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
+            />
+            <AuthForm
+              label="REQUIREMENTS"
+              name="requirements"
+              value={funcData.requirements ? funcData.requirements.name : ''}
+              type="file"
+              onInputChange={handleInputChange}
+              infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
+            />
+            <AuthForm
+              label="FUNC_NAME"
+              name="func_name"
+              value={funcData.func_name}
+              type="text"
+              onInputChange={handleInputChange}
+              infoLink='https://github.com/Harmonica-OIDC2023/harmonica-web'
+            />
+          </div>
+          <div
+          style={{
+            display: 'flex', flexDirection: 'column', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center'
+          }}
+          >
+            <NextButton
+              disabled={!isFormComplete || !isFormComplete}
+              className={isFormComplete ? 'next-button-active' : 'next-button'}
+              onClick={migrationHandler}
+              style={{width: '100%', height: '100%', fontSize: '30px', borderRadius: '0 0 12px 12px' }}
+            >
+              migration
+            </NextButton>
+          </div>
+        </ItemBlock>
+        <ItemBlock style={{ display: 'flex', flexDirection: 'column', flex: 2 }}>
+          <div
+            style={{ display: 'flex', flexDirection: 'column', width: '100%', justifyContent: 'center', padding: '3vh 3vw 5vh 3vw', height: '90%' }}
+          >
+            {renderInput()}
+          </div>
+        </ItemBlock>
+      </div>
+    );
+  }
 };
 
 export default Migration;
