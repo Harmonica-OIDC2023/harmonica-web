@@ -8,7 +8,6 @@ import AuthForm from '../components/AuthForm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { solarizedlight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import InProgressSpinner from '../components/InProgressSpinner';
-import Lottie from 'lottie-react';
 import axios from 'axios';
 
 interface FuncData {
@@ -72,7 +71,7 @@ const Migration = () => {
         setLoading(true);
         try {
             // Choose the API endpoint based on the presence of receivedFormData
-            const apiEndpoint = receivedFormData ? '/api/v1/migration/knative-to-oci' : '/api/v1/migration/oci-to-knative';
+            const apiEndpoint = receivedFormData ? 'http://localhost:8080/api/v1/migration/knative-to-oci' : 'http://localhost:8080/api/v1/migration/oci-to-knative';
 
             const response = await axios.post(apiEndpoint, { params: funcData });
             setLoading(false);
