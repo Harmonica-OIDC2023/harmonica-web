@@ -4,7 +4,7 @@ import Lottie from 'lottie-react';
 import animationData from '../components/lottie/animation_pink_check.json'; 
 
 const Completed = () => {
-    const [showCompleted, setShowCompleted] = useState(false);
+    const [showCompleted, setShowCompleted] = useState(true);
     const [opacity, setOpacity] = useState(0);
     const [endpoint, setEndpoint] = useState<string | undefined>();
     const navigate = useNavigate();
