@@ -68,23 +68,35 @@ const Migration = () => {
 
 	const migrationHandler = async () => {
     if (isFormComplete) {
-        setLoading(true);
-        try {
-            // Choose the API endpoint based on the presence of receivedFormData
-            const apiEndpoint = receivedFormData ? 'http://localhost:8080/api/v1/migration/knative-to-oci' : 'http://localhost:8080/api/v1/migration/oci-to-knative';
+      setLoading(true);
 
-            const response = await axios.post(apiEndpoint, { params: funcData });
-            setLoading(false);
-            navigate("/completed", { state: { endpoint: response.data.endpoint } });
-        } catch (error) {
-            alert("Failed to submit form data to the API.");
-            console.error("API Error:", error);
-            setLoading(false);
+      const formData = new FormData();
+
+      for (let key in funcData) {
+        if (funcData.hasOwnProperty(key)) {
+            let typedKey = key as keyof typeof funcData;
+            if (funcData[typedKey] !== null) { // 값이 null이 아닌 경우에만 formData에 추가
+                formData.append(key, funcData[typedKey] as string | Blob);
+            }
         }
+    }
+      try {
+          const apiEndpoint = receivedFormData ? 'http://localhost:8080/api/v1/migration/knative-to-oci' : 'http://localhost:8080/api/v1/migration/oci-to-knative';
+          axios.defaults.baseURL = "http://localhost:8080"
+          // formData 객체를 사용하여 POST 요청
+          const response = await axios.post(apiEndpoint, formData);
+          setLoading(false);
+          navigate("/completed", { state: { endpoint: response.data.endpoint } });
+      } catch (error) {
+          alert("Failed to submit form data to the API.");
+          console.error("API Error:", error);
+          setLoading(false);
+      }
     } else {
         alert("Please fill in all the form fields.");
     }
   };
+
 
   const {
 		getRootProps: getRootPropsPy,
